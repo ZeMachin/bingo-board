@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --osrs-bg: #0b1820; /* dark slate */
+  --osrs-panel: #e9dcc6; /* parchment */
+  --osrs-accent: #d4af37; /* gold */
+  --osrs-border: #2b1f12; /* dark border */
+  --osrs-text: #1b1208; /* dark text */
+  --osrs-shadow: rgba(0,0,0,0.5);
+}
+
+html, body, app-root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  background: linear-gradient(180deg, var(--osrs-bg) 0%, #08121a 100%);
+  color: var(--osrs-text);
+}
+
+/* Small decorative header style */
+header h1 {
+  margin: 1rem auto; text-align:center; color: var(--osrs-accent); font-size: 1rem; text-shadow: 0 1px 0 #000;
+}
+
+/* Board panel */
+.board-container {
+  max-width: 1000px;
+  margin: 0.5rem auto 2rem auto;
+  background: linear-gradient(180deg, rgba(255,250,240,0.98), rgba(245,235,215,0.95));
+  border: 3px solid var(--osrs-border);
+  padding: 0.75rem;
+  box-shadow: 6px 6px 0 var(--osrs-shadow);
+  border-radius: 6px;
+}
+
+/* Make tiles look slightly inset and pixel-y */
+.board .board-cell {
+  border: 2px solid var(--osrs-border);
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.06), 3px 3px 0 rgba(0,0,0,0.06);
+  border-radius: 4px;
+  background: linear-gradient(180deg, rgba(250,245,230,1), rgba(240,230,200,1));
+  overflow: hidden;
+}
+
+/* Slight spacing tweak for smaller screens */
+@media (max-width: 420px) {
+  header h1 { font-size: 0.8rem; }
+}
