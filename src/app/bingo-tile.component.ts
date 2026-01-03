@@ -27,7 +27,7 @@ import { NgOptimizedImage } from '@angular/common';
           />
 
           <!-- Check button (only when not locked) -->
-          @if(!locked){<button
+          @if(!locked && !fun){<button
             class="check-button"
             type="button"
             [attr.aria-pressed]="isChecked()"
@@ -198,6 +198,7 @@ export class BingoTileComponent {
   @Input() tooltip?: string;
   @Input() title?: string;
   @Input() locked = false;
+  @Input() fun = false;
   // checked state is stored in a signal; expose an input setter so parent can set initial state
   private _checked = signal(false);
   @Input() set checked(v: boolean) { this._checked.set(!!v); }

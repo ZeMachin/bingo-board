@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, signal, computed, effect } from '@a
 import { CommonModule } from '@angular/common';
 import { BingoTileComponent } from './bingo-tile.component';
 import { tilesData } from '../data/tiles';
-import { Tile } from '../model/tile';
+import { Tile } from '../models/tile';
 
 @Component({
   selector: 'app-bingo-board',
@@ -23,8 +23,9 @@ import { Tile } from '../model/tile';
                   [title]="tile.alt"
                   [locked]="tile.locked ?? false"
                   [checked]="tile.checked ?? false"
+                  [fun]="tile.fun ?? false"
                   (checkedChange)="onTileChecked(tile, $event)"
-                  (info)="openModal(tile)"
+                  (info)="openModal(tile)"  
                 ></app-bingo-tile>
               </div>
             }
@@ -148,18 +149,70 @@ export class BingoBoardComponent {
         } catch (err) { /* ignore */ }
       });
     }
+
+    // update challenge tile locks
+    this.updateChallengeLocks();
   }
 
   getTiles(): Tile[][] {
-    return tilesData;
+    // Lock all challenge tiles on load
+    return tilesData.map(row =>
+      row.map(tile => tile.challenge ? { ...tile, locked: true } : { ...tile })
+    );
   }
 
   onTileChecked(tile: Tile, checked: boolean) {
     // update the board state so checked status persists
     this._tiles.update(rows => rows.map(row => row.map(t => t.id === tile.id ? { ...t, checked } : t)));
+    // update challenge tile locks
+    this.updateChallengeLocks();
     // persist the checked ids immediately
     this.saveCheckedToStorage();
   }
+  /**
+   * Unlock challenge tiles in a row/column if all non-challenge tiles are checked,
+   * relock if any are unchecked.
+   */
+  private updateChallengeLocks() {
+    const rows = this._tiles();
+    const size = rows.length;
+    // Deep copy to avoid mutation
+    const updated = rows.map(row => row.map(tile => ({ ...tile })));
+
+    // Helper to check if all non-challenge tiles in a row/col are checked
+    const allNonChallengeChecked = (tiles: Tile[]) =>
+      tiles.filter(t => !t.challenge && !t.fun).every(t => t.checked);
+
+    // Update challenge tiles in rows
+    for (let r = 0; r < size; r++) {
+      if (allNonChallengeChecked(updated[r])) {
+        for (let c = 0; c < updated[r].length; c++) {
+          if (updated[r][c].challenge) updated[r][c].locked = false;
+        }
+      } else {
+        for (let c = 0; c < updated[r].length; c++) {
+          if (updated[r][c].challenge) updated[r][c].locked = true;
+        }
+      }
+    }
+
+    // Update challenge tiles in columns
+    for (let c = 1; c < size; c++) {
+      const col = updated.map(row => row[c]);
+      if (allNonChallengeChecked(col)) {
+        for (let r = 0; r < size; r++) {
+          if (updated[r][c].challenge) updated[r][c].locked = false;
+        }
+      } else {
+        for (let r = 0; r < size; r++) {
+          if (updated[r][c].challenge) updated[r][c].locked = true;
+        }
+      }
+    }
+
+    this._tiles.set(updated);
+  }
+
 
   openModal(tile: Tile) {
     this._modal.set(tile);
