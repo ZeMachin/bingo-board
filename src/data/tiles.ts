@@ -51,8 +51,8 @@ export const tilesData: Tile[][] = [
     [
         {
             "id": 8,
-            "image": "assets/images/cox.png",
-            "alt": "CoX",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
@@ -67,7 +67,7 @@ export const tilesData: Tile[][] = [
             "image": "assets/images/zgs.png",
             "alt": "GWD",
             "description": "All 3 godsword shards (1, 2, and 3)<br>Godsword hilt (any)<br>GWD armour piece<br>1 weapon from GWD",
-            "tooltip": "Hilt: Any god sword hilt (Armadyl, Bandos, Saradomin, Zamorak, Ancient). Armour piece: Any piece of GWD armour (Armadyl helmet/chestplate/chainskirt, Bandos tassets/chestplate/boots). Weapon: Any weapon from GWD except the Steam battlestaff (Armadyl crossbow, Saradomin sword, Zamorakian spear)."
+            "tooltip": "Hilt: Any god sword hilt (Armadyl, Bandos, Saradomin, Zamorak, Ancient). Armour piece: Any piece of GWD armour (Armadyl helmet/chestplate/chainskirt, Bandos tassets/chestplate/boots - I guess you can go for a Torva piece if you want, @Tedious). Weapon: Any weapon from GWD except the Steam battlestaff (Armadyl crossbow, Saradomin sword, Zamorakian spear)."
         },
         {
             "id": 11,
@@ -99,8 +99,8 @@ export const tilesData: Tile[][] = [
     [
         {
             "id": 15,
-            "image": "assets/images/cg.png",
-            "alt": "Gauntlet",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
@@ -147,8 +147,8 @@ export const tilesData: Tile[][] = [
     [
         {
             "id": 22,
-            "image": "assets/images/masori.png",
-            "alt": "ToA",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
@@ -163,7 +163,7 @@ export const tilesData: Tile[][] = [
             "image": "assets/images/heads.png",
             "alt": "Heads",
             "description": "Kbd heads<br>Vorkath's head<br>Kq head",
-            "tooltip": "Guaranteed heads do not count: Vorkath's head from the 50th kill and tattered Kq head (256 kills))."
+            "tooltip": "Guaranteed heads do not count: Vorkath's head from the 50th kill and tattered Kq head (256 kills)."
         },
         {
             "id": 25,
@@ -194,8 +194,8 @@ export const tilesData: Tile[][] = [
     [
         {
             "id": 29,
-            "image": "assets/images/whisp.png",
-            "alt": "The Whisperer",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
@@ -244,8 +244,8 @@ export const tilesData: Tile[][] = [
     [
         {
             "id": 36,
-            "image": "assets/images/sol.png",
-            "alt": "Fortis Colosseum",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
@@ -297,43 +297,43 @@ export const tilesData: Tile[][] = [
         },
         {
             "id": 44,
-            "image": "assets/images/duke.png",
-            "alt": "Duke Sucellus",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
         {
             "id": 45,
-            "image": "assets/images/yama.png",
-            "alt": "Yama",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
         {
             "id": 46,
-            "image": "assets/images/vard.png",
-            "alt": "Vardorvis",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
         {
             "id": 47,
-            "image": "assets/images/silly_hat.png",
-            "alt": "Silly hat",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
         {
             "id": 48,
-            "image": "assets/images/jad.png",
-            "alt": "Jad",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         },
         {
             "id": 49,
-            "image": "assets/images/moxi.png",
-            "alt": "Amoxliatl",
+            "image": "assets/images/mystery.png",
+            "alt": "Mystery",
             "description": "???",
             locked: true
         }
