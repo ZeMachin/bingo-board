@@ -1,13 +1,14 @@
-import { Component, ChangeDetectionStrategy, Input, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-bingo-tile',
   template: `
-    <button
+    <div
       class="tile-button"
-      type="button"
+      role="button"
+      tabindex="0"
       (click)="toggle()"
       (keydown)="onKeydown($event)"
       [attr.aria-pressed]="isFlipped()"
@@ -24,15 +25,26 @@ import { NgOptimizedImage } from '@angular/common';
           />
         </div>
         <div class="tile-face tile-back">
-          <div class="description">{{ description }}</div>
+          <!-- info button (opens modal) -->
+          @if(tooltip){<button
+            class="info-button"
+            type="button"
+            aria-label="Tile details"
+            title="Tile details"
+            (click)="openInfo($event)"
+          >
+            ℹ️
+          </button>}
+
+          <div class="description" [innerHTML]="description"></div>
         </div>
       </div>
-    </button>
+    </div>
   `,
   styles: [`
     :host { display: block; font-family: inherit; }
 
-    /* Button container */
+    /* Button container (using role=button for accessibility) */
     .tile-button { background: transparent; border: none; padding: 0; cursor: pointer; perspective: 800px; width: 100%; height: 100%; display:block; }
 
     /* Inner 3D flip */
@@ -46,7 +58,24 @@ import { NgOptimizedImage } from '@angular/common';
     .tile-front { background: linear-gradient(180deg, rgba(245,235,200,1), rgba(230,215,175,1)); border-left:4px solid rgba(0,0,0,0.12); border-top:4px solid rgba(255,255,255,0.08); box-shadow: inset -4px -4px 0 rgba(0,0,0,0.06); }
 
     /* Back: parchment description */
-    .tile-back { background: linear-gradient(180deg, #faefd9, #efe1b8); transform: rotateY(180deg); padding: 0.75rem; box-sizing: border-box; text-align: center; border-left:4px solid rgba(0,0,0,0.12); }
+    .tile-back { background: linear-gradient(180deg, #faefd9, #efe1b8); transform: rotateY(180deg); padding: 0.75rem; box-sizing: border-box; text-align: center; border-left:4px solid rgba(0,0,0,0.12); position:relative; }
+
+    /* Info button */
+    .info-button {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      background: var(--osrs-accent);
+      color: #111;
+      border: 2px solid rgba(0,0,0,0.12);
+      border-radius: 6px;
+      padding: 0.15rem 0.35rem;
+      font-size: 0.8rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .info-button:focus { outline: none; box-shadow: 0 0 0 3px rgba(212,175,55,0.25); }
 
     /* Decorative gold accent line */
     .tile-back::before { content: ''; position: absolute; left: 8px; right: 8px; height: 6px; top: 6px; background: linear-gradient(90deg, rgba(212,175,55,1), rgba(255,220,120,1)); box-shadow: 0 1px 0 rgba(0,0,0,0.25); border-radius: 2px; }
@@ -64,9 +93,13 @@ import { NgOptimizedImage } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BingoTileComponent {
-  @Input() image = 'https://via.placeholder.com/300';
+  @Input() image = 'https://upload.wikimedia.org/wikipedia/commons/e/e0/PlaceholderLC.png';
   @Input() alt = 'Bingo tile image';
   @Input() description = 'Description';
+  @Input() tooltip?: string;
+  @Input() title?: string;
+
+  @Output() info = new EventEmitter<{ title?: string; description: string; tooltip?: string; image?: string }>();
 
   ariaLabel = 'Bingo tile';
 
@@ -78,6 +111,13 @@ export class BingoTileComponent {
 
   toggle() {
     this.flipped.set(!this.flipped());
+  }
+
+  openInfo(event: Event) {
+    // prevent flipping when clicking the info button
+    event.stopPropagation();
+    event.preventDefault();
+    this.info.emit({ title: this.title, description: this.description, tooltip: this.tooltip, image: this.image });
   }
 
   onKeydown(event: KeyboardEvent) {

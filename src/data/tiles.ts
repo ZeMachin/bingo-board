@@ -1,309 +1,327 @@
+import { Tile } from '../model/tile';
+
 export const tilesData: Tile[][] = [
     [
         {
             "id": 1,
             "image": "images/tob.png",
-            "alt": "Tile 1",
-            "description": "Mory only ToB (entry tob allowed)."
+            "alt": "ToB",
+            "description": "Barrows only ToB",
+            "tooltip": " Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you. This can only be done with members of your team."
         },
         {
             "id": 2,
             "image": "images/sceptres.png",
-            "alt": "Tile 2",
-            "description": "Warped sceptre, Twinflame staff pieces and all 4 Skull sceptre pieces."
+            "alt": "Sceptres",
+            "description": "Warped sceptre<br>Twinflame staff pieces<br>All 4 Skull sceptre pieces"
         },
         {
             "id": 3,
             "image": "images/custodians.png",
-            "alt": "Tile 3",
-            "description": "1 Antlerguard and 5 Alchemist signets."
+            "alt": "Custodian stalkers",
+            "description": "Antler guard<br>5 Alchemist signets"
         },
         {
             "id": 4,
             "image": "images/bones.png",
-            "alt": "Tile 4",
-            "description": "4 long bones & 4 Scurrius spines."
+            "alt": "Bones",
+            "description": "4 Long bones<br>4 Scurrius spines"
         },
         {
             "id": 5,
             "image": "images/elder_chaos_robes.png",
-            "alt": "Tile 5",
-            "description": "Any 2 Elder chaos druid pieces."
+            "alt": "Elder chaos druids",
+            "description": "2 Elder chaos druid pieces (any)"
         },
         {
             "id": 6,
             "image": "/images/zulrah.png",
-            "alt": "Tile 6",
-            "description": "Any 5 zulrah uniques (no onyx)."
+            "alt": "Zulrah",
+            "description": "5 Zulrah uniques",
+            "tooltip": "Tanzanite fang, Serpentine helm, Magic fang, Magma mutagen, Tanzanite mutagen, Pet snakeling or Jar of swamp. No onyx."
         },
         {
             "id": 7,
             "image": "images/champion_scroll.png",
-            "alt": "Tile 7",
-            "description": "any champion scroll."
+            "alt": "Champion scroll",
+            "description": "Any champion scroll"
         }
     ],
     [
         {
             "id": 8,
             "image": "images/cox.png",
-            "alt": "Tile 8",
+            "alt": "CoX",
             "description": "???"
         },
         {
             "id": 9,
             "image": "images/prims.png",
-            "alt": "Tile 9",
-            "description": "primordials from scratch and all cerb stones/crystals.."
+            "alt": "Cerberus",
+            "description": "Primordials from scratch (Primordial crystal + Dragon boots)<br>Pegasian crystal<br>Eternal crystal<br>Smouldering stone"
         },
         {
             "id": 10,
             "image": "images/zgs.png",
-            "alt": "Tile 10",
-            "description": "All godsword pieces (hilt 1,2,3) and 1 armour piece and 1 weapon (no steam battle staff)."
+            "alt": "GWD",
+            "description": "All 3 godsword shards (1, 2, and 3)<br>Godsword hilt (any)<br>GWD armour piece<br>1 weapon from GWD",
+            "tooltip": "Hilt: Any god sword hilt (Armadyl, Bandos, Saradomin, Zamorak, Ancient). Armour piece: Any piece of GWD armour (Armadyl helmet/chestplate/chainskirt, Bandos tassets/chestplate/boots). Weapon: Any weapon from GWD except the Steam battlestaff (Armadyl crossbow, Saradomin sword, Zamorakian spear)."
         },
         {
             "id": 11,
             "image": "images/jaw_mask.png",
-            "alt": "Tile 11",
-            "description": "basalisk Jaw and Shaman Mask."
+            "alt": "Masks",
+            "description": "Basilisk jaw<br>Shaman mask."
         },
         {
             "id": 12,
             "image": "images/boppers.png",
-            "alt": "Tile 12",
-            "description": "all 3  boppers."
+            "alt": "Boppers",
+            "description": "Glacial temotli<br>Earthbound tecpatl<br>Sulphur blades",
+            "tooltip": "Any source allowed."
         },
         {
             "id": 13,
             "image": "images/nightmare.png",
-            "alt": "Tile 13",
-            "description": "1 nightmare  or PNM unique."
+            "alt": "Nightmare",
+            "description": "1 Nightmare  or PNM unique.",
+            "tooltip": "Includes: Inquisitor's mace, Inquisitor's great helm, Inquisitor's hauberk, Inquisitor's plateskirt, Nightmare staff, Harmonised orb, Volatile orb, Eldritch orb, Little nightmare, Jar of dreams."
         },
         {
             "id": 14,
             "image": "/images/zombies.png",
-            "alt": "Tile 14",
-            "description": "Broken Zombie Items."
+            "alt": "Zombies",
+            "description": "Broken zombie helmet<br>Broken zombie axe"
         }
     ],
     [
         {
             "id": 15,
             "image": "images/cg.png",
-            "alt": "Tile 15",
+            "alt": "Gauntlet",
             "description": "???"
         },
         {
             "id": 16,
             "image": "images/td.png",
-            "alt": "Tile 16",
-            "description": "2 TD’s uniques."
+            "alt": "Tormented Demons",
+            "description": "2 Tormented Demons uniques",
+            "tooltip": "Includes: Tormented synapse, Burning claw."
         },
         {
             "id": 17,
             "image": "images/dark_bow_tent.png",
-            "alt": "Tile 17",
-            "description": "Dark bow & Tentacle Whip from scratch ."
+            "alt": "Dark bow | Abyssal tentacle",
+            "description": "Dark bow<br>Abyssal tentacle from scratch",
+            "tooltip": "Abyssal tentacle: Abyssal whip + Kraken tentacle."
         },
         {
             "id": 18,
             "image": "images/voidwaker.png",
-            "alt": "Tile 18",
-            "description": "full voidwaker ."
+            "alt": "Voidwaker",
+            "description": "Full voidwaker",
+            "tooltip": "Voidwaker blade, Voidwaker gem, Voidwaker hilt."
         },
         {
             "id": 19,
             "image": "images/brimstone_ring.png",
-            "alt": "Tile 19",
-            "description": "brimstone ring ( any 3 pieces )."
+            "alt": "Brimstone ring",
+            "description": "3 Brimstone ring pieces (any)"
         },
         {
             "id": 20,
             "image": "images/steel_ring.png",
-            "alt": "Tile 20",
-            "description": "steel ring."
+            "alt": "Steel ring",
+            "description": "Steel ring"
         },
         {
             "id": 21,
             "image": "images/dragon_items.png",
-            "alt": "Tile 21",
-            "description": "Dragon med, dragon halberd, dragon pickaxe, dragon long, D2H, dragon platelegs."
+            "alt": "Dragon items",
+            "description": "Dragon med helm<br>Dragon halberd<br>Dragon pickaxe<br> Dragon longsword<br>Dragon 2h sword<br> Dragon platelegs OR plateskirt"
         }
     ],
     [
         {
             "id": 22,
             "image": "images/masori.png",
-            "alt": "Tile 22",
+            "alt": "ToA",
             "description": "???"
         },
         {
             "id": 23,
             "image": "images/venator_shards.png",
-            "alt": "Tile 23",
-            "description": "3 Venetor shards."
+            "alt": "Phantom Muspah",
+            "description": "3 Venator shards"
         },
         {
             "id": 24,
             "image": "/images/heads.png",
-            "alt": "Tile 24",
-            "description": "kbd heads vorkath head and Kq head."
+            "alt": "Heads",
+            "description": "Kbd heads<br>Vorkath's head<br>Kq head"
         },
         {
             "id": 25,
             "image": "images/zenytes.png",
-            "alt": "Tile 25",
-            "description": "3 zenytes."
+            "alt": "Zenytes",
+            "description": "3 zenyte shards"
         },
         {
             "id": 26,
             "image": "images/occult_necklace.png",
-            "alt": "Tile 26",
-            "description": "occult necklace."
+            "alt": "Occult necklace",
+            "description": "Occult necklace"
         },
         {
             "id": 27,
             "image": "images/soulreaper.png",
-            "alt": "Tile 27",
-            "description": "1 Piece of the soul reaper Axe."
+            "alt": "Soulreaper axe",
+            "description": "1 piece of the soulreaper axe",
+            "tooltip": "Any piece: Leviathan's lure, Siren's staff, Executioner's axe head, or Eye of the duke."
         },
         {
             "id": 28,
             "image": "images/crystal.png",
-            "alt": "Tile 28",
-            "description": "3 armour seeds or an enhanced ."
+            "alt": "Gauntlet",
+            "description": "3 Crystal armour seeds OR 1 Enhanced crystal weapon seed"
         }
     ],
     [
         {
             "id": 29,
             "image": "images/whisp.png",
-            "alt": "Tile 29",
+            "alt": "The Whisperer",
             "description": "???"
         },
         {
             "id": 30,
             "image": "images/megas.png",
-            "alt": "Tile 30",
-            "description": "1 mega rare ( inc elder maul and Kodai)."
+            "alt": "Mega-rare",
+            "description": "1 mega-rare item from a raid",
+            "tooltip": "Includes: Elder maul, Kodai insignia, Twisted bow, Scythe of vitur, Tumeken's shadow."
         },
         {
             "id": 31,
             "image": "images/ancient_rings.png",
-            "alt": "Tile 31",
-            "description": "1 Ancient Ring from scratch ."
+            "alt": "Ancient ring",
+            "description": "1 Ancient ring from scratch",
+            "tooltip": "Ancient ring: One DK ring (Berserker ring, Warrior ring, Seers ring, or Archers ring), 3 ring drops (1 gold ring, 2 gold rings, or vestige) from the related DT2 boss.<br>For example, if you submit a Berserker ring, you need to get 3 ring/vestige drops from Vardorvis."
         },
         {
             "id": 32,
             "image": "/images/yama.png",
-            "alt": "Tile 32",
-            "description": "1 yama unique."
+            "alt": "Yama",
+            "description": "1 Yama unique.",
+            "tooltip": "Includes: Soulflame horn, Oathplate helm, Oathplate chest, Oathplate legs, Yami."
         },
         {
             "id": 33,
             "image": "images/doom.png",
-            "alt": "Tile 33",
-            "description": "doom unique (wand, cloth or boots)."
+            "alt": "Doom of Mokhaiotl",
+            "description": "Doom of Mokhaiotl unique",
+            "tooltip": "Includes: Avernic treads, Eye of ayak, Mokhaiotl cloth, or Dom."
         },
         {
             "id": 34,
             "image": "images/barrows_moons.png",
-            "alt": "Tile 34",
-            "description": "head legs top and weapon from barrows and any 4 uniques from moons ."
+            "alt": "Barrows/Moons",
+            "description": "Barrows brothers: Head, top, legs and weapon slots<br> Moons of Peril: any 4 uniques.",
+            "tooltip": "Barrows: 1 item per slot no need to match sets."
         },
         {
             "id": 35,
             "image": "images/capes.png",
-            "alt": "Tile 35",
-            "description": "5 firecapes or 1 infernal cape."
+            "alt": "Fire/Infernal cape",
+            "description": "5 Fire capes OR 1 Infernal cape"
         }
     ],
     [
         {
             "id": 36,
             "image": "images/sol.png",
-            "alt": "Tile 36",
+            "alt": "Fortis Colosseum",
             "description": "???"
         },
         {
             "id": 37,
             "image": "images/araxxor.png",
-            "alt": "Tile 37",
-            "description": "Any 2 Araaxor uniques not coagulated venom."
+            "alt": "Araxxor",
+            "description": "2 Araaxor uniques",
+            "tooltip": "Includes: Noxious pommel, Noxious point, Noxious blade, Araxyte fang, Nid, or Jar of venom."
         },
         {
             "id": 38,
             "image": "images/shark_paints.png",
-            "alt": "Tile 38",
-            "description": "5 shark paints."
+            "alt": "Shark paints",
+            "description": "5 shark paints"
         },
         {
             "id": 39,
             "image": "images/virtus.png",
-            "alt": "Tile 39",
-            "description": "Virtus piece (any 1 piece)."
+            "alt": "Virtus",
+            "description": "1 Virtus piece"
         },
         {
             "id": 40,
             "image": "/images/albatross_feathers.png",
-            "alt": "Tile 40",
-            "description": "10 Swift albatross feathers."
+            "alt": "Albatross feathers",
+            "description": "10 Swift albatross feathers"
         },
         {
             "id": 41,
             "image": "images/purple_chest.png",
-            "alt": "Tile 41",
-            "description": "4 Raids purples (any)."
+            "alt": "Purples",
+            "description": "4 Raid purples (any).",
+            "tooltip": "If you get a mega-rare, it can be submitted for this tile as well as the mega-rare tile."
         },
         {
             "id": 42,
             "image": "images/belle_s_folly.png",
-            "alt": "Tile 42",
-            "description": "belle’s folly."
+            "alt": "Belle's folly",
+            "description": "Belle’s folly (tarnished)"
         }
     ],
     [
         {
             "id": 43,
             "image": "images/mole.png",
-            "alt": "Tile 43",
+            "alt": ":3",
             "description": "Holy Mole-y! (No points to be found here)"
         },
         {
             "id": 44,
             "image": "images/duke.png",
-            "alt": "Tile 44",
+            "alt": "Duke Sucellus",
             "description": "???"
         },
         {
             "id": 45,
             "image": "images/yama.png",
-            "alt": "Tile 45",
+            "alt": "Yama",
             "description": "???"
         },
         {
             "id": 46,
             "image": "images/vard.png",
-            "alt": "Tile 46",
+            "alt": "Vardorvis",
             "description": "???"
         },
         {
             "id": 47,
             "image": "images/silly_hat.png",
-            "alt": "Tile 47",
+            "alt": "Silly hat",
             "description": "???"
         },
         {
             "id": 48,
             "image": "/images/jad.png",
-            "alt": "Tile 48",
+            "alt": "Jad",
             "description": "???"
         },
         {
             "id": 49,
             "image": "images/moxi.png",
-            "alt": "Tile 49",
+            "alt": "Amoxliatl",
             "description": "???"
         }
     ]
