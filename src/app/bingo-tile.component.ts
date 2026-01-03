@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgOptimizedImage } from '@angular/common';
 
@@ -36,8 +36,8 @@ import { NgOptimizedImage } from '@angular/common';
           }
         </div>
         <div class="tile-face tile-back">
-          <!-- info button (opens modal) -->
-          @if(tooltip){<button
+          <!-- info button (opens modal or for long descriptions) -->
+          @if(tooltip || hasLongDescription()){<button
             class="info-button"
             type="button"
             aria-label="Tile details"
@@ -47,7 +47,15 @@ import { NgOptimizedImage } from '@angular/common';
             ℹ️
           </button>}
 
-          <div class="description" [innerHTML]="description"></div>
+          <div
+            class="description"
+            [innerHTML]="description"
+            [class.long]="hasLongDescription()"
+            role="region"
+            [attr.aria-label]="title ? (title + ' description') : 'Tile description'"
+            tabindex="0"
+            (keydown)="onDescriptionKeydown($event)"
+          ></div>
         </div>
       </div>
     </div>
@@ -83,6 +91,7 @@ import { NgOptimizedImage } from '@angular/common';
       padding: 0.15rem 0.35rem;
       font-size: 0.8rem;
       line-height: 1;
+      z-index: 1;
       cursor: pointer;
     }
 
@@ -92,7 +101,35 @@ import { NgOptimizedImage } from '@angular/common';
     .tile-back::before { content: ''; position: absolute; left: 8px; right: 8px; height: 6px; top: 6px; background: linear-gradient(90deg, rgba(212,175,55,1), rgba(255,220,120,1)); box-shadow: 0 1px 0 rgba(0,0,0,0.25); border-radius: 2px; }
 
     /* Description text */
-    .description { font-size: 0.7rem; color: var(--osrs-text); padding: 0.5rem; line-height: 1.2; text-shadow: 0 1px 0 rgba(255,255,255,0.4); }
+    .description { font-size: 0.7rem; color: var(--osrs-text); padding: 0.5rem; line-height: 1.25; text-shadow: 0 1px 0 rgba(255,255,255,0.4); hyphens: auto; -webkit-hyphens: auto; overflow: hidden; }
+
+    /* Long descriptions: make scrollable and left-aligned for readability */
+    .description.long {
+      text-align: left;
+      max-height: calc(100% - 2rem); /* leave room for decorative header and buttons */
+      overflow-y: auto;
+      padding-right: 0.25rem; /* make room for scrollbar */
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Subtle fade at the bottom when content scrolls */
+    .description.long::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2.4rem;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(250,245,230,0) 0%, rgba(239,225,185,1) 100%);
+    }
+
+    /* Thin, unobtrusive scrollbar */
+    .description.long::-webkit-scrollbar { width: 8px; }
+    .description.long::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 4px; }
+    .description.long::-webkit-scrollbar-track { background: transparent; }
+    .description.long { scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.18) transparent; }
 
     /* Image styles */
     img { display:block; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
@@ -121,6 +158,7 @@ export class BingoTileComponent {
   ariaLabel = 'Bingo tile';
 
   private flipped = signal(false);
+  hasLongDescription = computed(() => (this.description ?? '').length > 80);
 
   isFlipped() {
     return this.flipped();
@@ -143,6 +181,14 @@ export class BingoTileComponent {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.toggle();
+    }
+  }
+
+  onDescriptionKeydown(event: KeyboardEvent) {
+    // open the info modal when Enter/Space is pressed while focusing the description
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.openInfo(event as unknown as Event);
     }
   }
 }
