@@ -36,7 +36,8 @@
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "outputPath": "dist/bingo-board"
           },
           "configurations": {
             "production": {
@@ -76,6 +77,12 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "buildTarget": "bingo-board:build:production"
+          }
         }
       }
     }
