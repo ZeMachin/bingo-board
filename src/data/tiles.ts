@@ -7,7 +7,8 @@ export const tilesData: Tile[][] = [
             "image": "images/tob.png",
             "alt": "ToB",
             "description": "Barrows only ToB",
-            "tooltip": " Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you. This can only be done with members of your team."
+            "tooltip": " Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you. This can only be done with members of your team.",
+            locked: true
         },
         {
             "id": 2,
@@ -52,7 +53,8 @@ export const tilesData: Tile[][] = [
             "id": 8,
             "image": "images/cox.png",
             "alt": "CoX",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 9,
@@ -99,7 +101,8 @@ export const tilesData: Tile[][] = [
             "id": 15,
             "image": "images/cg.png",
             "alt": "Gauntlet",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 16,
@@ -146,7 +149,8 @@ export const tilesData: Tile[][] = [
             "id": 22,
             "image": "images/masori.png",
             "alt": "ToA",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 23,
@@ -191,7 +195,8 @@ export const tilesData: Tile[][] = [
             "id": 29,
             "image": "images/whisp.png",
             "alt": "The Whisperer",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 30,
@@ -240,7 +245,8 @@ export const tilesData: Tile[][] = [
             "id": 36,
             "image": "images/sol.png",
             "alt": "Fortis Colosseum",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 37,
@@ -292,37 +298,43 @@ export const tilesData: Tile[][] = [
             "id": 44,
             "image": "images/duke.png",
             "alt": "Duke Sucellus",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 45,
             "image": "images/yama.png",
             "alt": "Yama",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 46,
             "image": "images/vard.png",
             "alt": "Vardorvis",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 47,
             "image": "images/silly_hat.png",
             "alt": "Silly hat",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 48,
             "image": "/images/jad.png",
             "alt": "Jad",
-            "description": "???"
+            "description": "???",
+            locked: true
         },
         {
             "id": 49,
             "image": "images/moxi.png",
             "alt": "Amoxliatl",
-            "description": "???"
+            "description": "???",
+            locked: true
         }
     ]
 ];

@@ -8,11 +8,12 @@ import { NgOptimizedImage } from '@angular/common';
     <div
       class="tile-button"
       role="button"
-      tabindex="0"
+      [attr.tabindex]="locked ? -1 : 0"
       (click)="toggle()"
       (keydown)="onKeydown($event)"
       [attr.aria-pressed]="isFlipped()"
-      [attr.aria-label]="ariaLabel"
+      [attr.aria-disabled]="locked"
+      [attr.aria-label]="ariaLabel + (locked ? ', locked' : '')"
     >
       <div class="tile-inner" [class.flipped]="isFlipped()">
         <div class="tile-face tile-front">
@@ -23,6 +24,16 @@ import { NgOptimizedImage } from '@angular/common';
             height="300"
             decoding="async"
           />
+
+          @if(locked){
+            <div class="lock-overlay" role="img" aria-label="Locked tile">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="lock-icon">
+                <path d="M6 9V7a6 6 0 0112 0v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="3" y="9" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 14v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          }
         </div>
         <div class="tile-face tile-back">
           <!-- info button (opens modal) -->
@@ -88,6 +99,11 @@ import { NgOptimizedImage } from '@angular/common';
 
     /* Focus ring for accessibility, pixel style */
     .tile-button:focus { outline: none; box-shadow: 0 0 0 3px rgba(212,175,55,0.2), 0 4px 0 rgba(0,0,0,0.2); }
+
+    /* Lock overlay */
+    .lock-overlay { position: absolute; inset: 0; display:flex; align-items:center; justify-content:center; pointer-events: none; }
+    .lock-overlay::before { content: ''; position:absolute; inset: 0; background: rgba(0,0,0,0.28); }
+    .lock-icon { position: relative; z-index: 1; color: #fff; width: 48px; height: 48px; filter: drop-shadow(0 2px 0 rgba(0,0,0,0.4)); }
   `],
   imports: [CommonModule, NgOptimizedImage],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,6 +114,7 @@ export class BingoTileComponent {
   @Input() description = 'Description';
   @Input() tooltip?: string;
   @Input() title?: string;
+  @Input() locked = false;
 
   @Output() info = new EventEmitter<{ title?: string; description: string; tooltip?: string; image?: string }>();
 
@@ -110,6 +127,7 @@ export class BingoTileComponent {
   }
 
   toggle() {
+    if (this.locked) return;
     this.flipped.set(!this.flipped());
   }
 
@@ -121,6 +139,7 @@ export class BingoTileComponent {
   }
 
   onKeydown(event: KeyboardEvent) {
+    if (this.locked) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.toggle();

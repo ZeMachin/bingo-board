@@ -20,6 +20,7 @@ import { Tile } from '../model/tile';
                 [description]="tile.description"
                 [tooltip]="tile.tooltip"
                 [title]="tile.alt"
+                [locked]="tile.locked ?? false"
                 (info)="openModal(tile)"
               ></app-bingo-tile>
             </div>
@@ -74,8 +75,12 @@ export class BingoBoardComponent {
 
   openModal(tile: Tile) {
     this._modal.set(tile);
-    // focus the modal overlay after it is rendered
-    setTimeout(() => { const el = document.getElementById('tile-modal'); if (el) (el as HTMLElement).focus(); });
+    // focus the modal close button after it is rendered (fallback to overlay)
+    setTimeout(() => {
+      const closeBtn = document.getElementById('modal-close');
+      if (closeBtn) (closeBtn as HTMLElement).focus();
+      else { const el = document.getElementById('tile-modal'); if (el) (el as HTMLElement).focus(); }
+    });
   }
 
   closeModal() {
