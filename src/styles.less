@@ -26,6 +26,22 @@ app-root {
   height: 100%;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f8f8f8;
+  height: 100%;
+  overflow: hidden;
+}
+
+body > app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+}
+
 body {
   margin: 0;
   font-family: "OSRS", "Courier New", monospace;
@@ -76,3 +92,14 @@ header h1 {
     margin: .35em;
   }
 }
+  .bingo-board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 8px;
+    margin: 32px auto;
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+  }
