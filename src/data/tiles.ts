@@ -162,7 +162,8 @@ export const tilesData: Tile[][] = [
             "id": 24,
             "image": "assets/images/heads.png",
             "alt": "Heads",
-            "description": "Kbd heads<br>Vorkath's head<br>Kq head"
+            "description": "Kbd heads<br>Vorkath's head<br>Kq head",
+            "tooltip": "Guaranteed heads do not count: Vorkath's head from the 50th kill and tattered Kq head (256 kills))."
         },
         {
             "id": 25,
