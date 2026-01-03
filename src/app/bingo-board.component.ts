@@ -1,18 +1,11 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BingoTileComponent } from './bingo-tile.component';
-import tilesData from '../data/tiles.json';
-
-interface Tile {
-    id: number;
-    image: string;
-    alt: string;
-    description: string;
-}
+import { tilesData } from '../data/tiles';
 
 @Component({
-    selector: 'app-bingo-board',
-    template: `
+  selector: 'app-bingo-board',
+  template: `
     <section class="board-container">
       <h2 class="visually-hidden">Bingo board</h2>
       <div class="board" role="grid" aria-label="7 by 7 bingo board">
@@ -30,7 +23,7 @@ interface Tile {
         </div>
     </section>
   `,
-    styles: [`
+  styles: [`
     .board-container { padding: 1rem; }
     .visually-hidden { position:absolute !important; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 
@@ -43,14 +36,14 @@ interface Tile {
 
     @media (max-width: 700px) { .board { grid-template-columns: repeat(4, 1fr); } }
   `],
-    imports: [CommonModule, BingoTileComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, BingoTileComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BingoBoardComponent {
-    private _tiles = signal<Tile[][]>(this.getTiles());
-    readonly tiles = this._tiles;
+  private _tiles = signal<Tile[][]>(this.getTiles());
+  readonly tiles = this._tiles;
 
-    getTiles(): Tile[][] {
-        return tilesData.tiles;    
-    }
+  getTiles(): Tile[][] {
+    return tilesData;
+  }
 }
