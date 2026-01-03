@@ -7,6 +7,7 @@ import { NgOptimizedImage } from '@angular/common';
   template: `
     <div
       class="tile-button"
+      [class.checked]="isChecked()"
       role="button"
       [attr.tabindex]="locked ? -1 : 0"
       (click)="toggle()"
@@ -25,6 +26,18 @@ import { NgOptimizedImage } from '@angular/common';
             decoding="async"
           />
 
+          <!-- Check button (only when not locked) -->
+          @if(!locked){<button
+            class="check-button"
+            type="button"
+            [attr.aria-pressed]="isChecked()"
+            [attr.aria-label]="isChecked() ? 'Unmark tile' : 'Mark tile as checked'"
+            title="Mark tile"
+            (click)="toggleCheck($event)"
+          >
+            ✓
+          </button>}
+
           @if(locked){
             <div class="lock-overlay" role="img" aria-label="Locked tile">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="lock-icon">
@@ -37,15 +50,17 @@ import { NgOptimizedImage } from '@angular/common';
         </div>
         <div class="tile-face tile-back">
           <!-- info button (opens modal or for long descriptions) -->
-          @if(tooltip || hasLongDescription()){<button
-            class="info-button"
-            type="button"
-            aria-label="Tile details"
-            title="Tile details"
-            (click)="openInfo($event)"
-          >
-            ℹ️
-          </button>}
+          @if(tooltip || hasLongDescription()){
+            <button
+              class="info-button"
+              type="button"
+              aria-label="Tile details"
+              title="Tile details"
+              (click)="openInfo($event)"
+            >
+              ℹ️
+            </button>
+          }
 
           <div
             class="description"
@@ -96,6 +111,37 @@ import { NgOptimizedImage } from '@angular/common';
     }
 
     .info-button:focus { outline: none; box-shadow: 0 0 0 3px rgba(212,175,55,0.25); }
+
+    /* Check button */
+    .check-button {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      background: transparent;
+      color: rgba(0,0,0,0.85);
+      border: 2px solid rgba(0,0,0,0.12);
+      border-radius: 8px;
+      padding: 0.12rem 0.3rem;
+      font-size: 0.9rem;
+      line-height: 1;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .check-button.back { top: 6px; }
+    .check-button:focus { outline: none; box-shadow: 0 0 0 3px rgba(46,204,113,0.18); }
+
+    /* Checked highlight */
+    .tile-button.checked .tile-front,
+    .tile-button.checked .tile-back {
+      box-shadow: inset 0 0 0 4px rgba(46,204,113,0.18), 0 6px 0 rgba(0,0,0,0.1);
+      border-left-color: rgba(46,204,113,0.6);
+    }
+
+    .tile-button.checked .check-button {
+      background: rgba(46,204,113,1);
+      color: white;
+      border-color: rgba(46,204,113,1);
+    }
 
     /* Decorative gold accent line */
     .tile-back::before { content: ''; position: absolute; left: 8px; right: 8px; height: 6px; top: 6px; background: linear-gradient(90deg, rgba(212,175,55,1), rgba(255,220,120,1)); box-shadow: 0 1px 0 rgba(0,0,0,0.25); border-radius: 2px; }
@@ -152,8 +198,13 @@ export class BingoTileComponent {
   @Input() tooltip?: string;
   @Input() title?: string;
   @Input() locked = false;
+  // checked state is stored in a signal; expose an input setter so parent can set initial state
+  private _checked = signal(false);
+  @Input() set checked(v: boolean) { this._checked.set(!!v); }
+  get checked() { return this._checked(); }
 
   @Output() info = new EventEmitter<{ title?: string; description: string; tooltip?: string; image?: string }>();
+  @Output() checkedChange = new EventEmitter<boolean>();
 
   ariaLabel = 'Bingo tile';
 
@@ -164,9 +215,21 @@ export class BingoTileComponent {
     return this.flipped();
   }
 
+  isChecked() { return this._checked(); }
+
   toggle() {
     if (this.locked) return;
     this.flipped.set(!this.flipped());
+  }
+
+  toggleCheck(event: Event) {
+    // prevent flipping when clicking the check button
+    event.stopPropagation();
+    event.preventDefault();
+    if (this.locked) return;
+    const next = !this._checked();
+    this._checked.set(next);
+    this.checkedChange.emit(next);
   }
 
   openInfo(event: Event) {

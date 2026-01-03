@@ -5,4 +5,5 @@ export interface Tile {
   description: string;
   tooltip?: string;
   locked?: boolean;
+  checked?: boolean;
 }

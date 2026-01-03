@@ -21,6 +21,8 @@ import { Tile } from '../model/tile';
                 [tooltip]="tile.tooltip"
                 [title]="tile.alt"
                 [locked]="tile.locked ?? false"
+                [checked]="tile.checked ?? false"
+                (checkedChange)="onTileChecked(tile, $event)"
                 (info)="openModal(tile)"
               ></app-bingo-tile>
             </div>
@@ -71,6 +73,11 @@ export class BingoBoardComponent {
 
   getTiles(): Tile[][] {
     return tilesData;
+  }
+
+  onTileChecked(tile: Tile, checked: boolean) {
+    // update the board state so checked status persists
+    this._tiles.update(rows => rows.map(row => row.map(t => t.id === tile.id ? { ...t, checked } : t)));
   }
 
   openModal(tile: Tile) {
