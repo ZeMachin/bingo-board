@@ -67,7 +67,7 @@ export const tilesData: Tile[][] = [
             image: "assets/images/zgs.png",
             alt: "GWD",
             description: "All 3 godsword shards (1, 2, and 3)<br>Godsword hilt (any)<br>GWD armour piece<br>1 weapon from GWD",
-            tooltip: "Hilt: Any god sword hilt (Armadyl, Bandos, Saradomin, Zamorak, Ancient). Armour piece: Any piece of GWD armour (Armadyl helmet/chestplate/chainskirt, Bandos tassets/chestplate/boots - I guess you can go for a Torva piece if you want, @Tedious - And @itsjahn can go for the Zaryte vambraces). Weapon: Any weapon from GWD except the Steam battlestaff (Armadyl crossbow, Saradomin sword, Zamorakian spear - and Nihil horn for @itsjahn)."
+            tooltip: "Hilt: Any god sword hilt (Armadyl, Bandos, Saradomin, Zamorak, Ancient). Armour piece: Any piece of GWD armour (Armadyl helmet/chestplate/chainskirt, Bandos tassets/chestplate/boots - I guess you can go for a Torva piece if you want, @Tedious - And @itsjahn can go for the Zaryte vambraces). Weapon: Any weapon from GWD except the Steam battlestaff (Armadyl crossbow, Saradomin sword, Zamorakian spear, Staff of the dead - and Nihil horn for @itsjahn)."
         },
         {
             id: 11,
