@@ -52,7 +52,9 @@ import { Tile } from '../models/tile';
 
       @if(confettiActive()) {
         <canvas id="confetti-canvas" class="confetti-canvas" tabindex="-1" aria-hidden="true"></canvas>
-        <div id="celebration-message" class="celebration-message" role="status" aria-live="assertive" tabindex="-1">
+      }
+      @if(celebrationShown() || confettiActive()) {
+        <div id="celebration-message" class="celebration-message" [class.closing]="celebrationExiting()" role="status" aria-live="assertive" tabindex="-1">
           🎉 <strong>Congratulations!</strong><br/>You completed the board!
         </div>
         <div class="visually-hidden" role="status" aria-live="polite">Bingo! All tiles checked. Congratulations!</div>
@@ -111,14 +113,21 @@ import { Tile } from '../models/tile';
       box-shadow: 0 12px 40px rgba(7,59,76,0.25);
       border: 2px solid rgba(7,59,76,0.06);
       line-height: 1;
-      pointer-events: none;
+      user-select: none;
       animation: celebration-pop 650ms cubic-bezier(.2,.9,.3,1) forwards;
-      z-index: 5;
+    }
+    .celebration-message.closing {
+      /* run a concise hide animation when the message is being dismissed */
+      animation: celebration-hide 420ms cubic-bezier(.4,0,.2,1) forwards;
     }
     @keyframes celebration-pop {
       0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
       60% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
       100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    @keyframes celebration-hide {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
     }
 
     @media (max-width: 700px) { .board { grid-template-columns: repeat(4, 1fr); } }
@@ -160,6 +169,13 @@ export class BingoBoardComponent {
   // confetti state (shown when all non-fun tiles are checked)
   private _confettiActive = signal(false);
   readonly confettiActive = this._confettiActive;
+
+  // celebration message visibility & exit animation state
+  private _celebrationShown = signal(false);
+  readonly celebrationShown = this._celebrationShown;
+  private _celebrationExiting = signal(false);
+  readonly celebrationExiting = this._celebrationExiting;
+  private celebrationHideTimer = 0;
 
   // internals for canvas animation
   private confettiRaf = 0;
@@ -213,6 +229,11 @@ export class BingoBoardComponent {
   private triggerConfetti() {
     if (typeof window === 'undefined') return; // no-op during SSR
     if (this._confettiActive()) return; // already running
+
+    // ensure the celebration message is visible and cancel any pending hide
+    if (this.celebrationHideTimer) { clearTimeout(this.celebrationHideTimer); this.celebrationHideTimer = 0; }
+    this._celebrationExiting.set(false);
+    this._celebrationShown.set(true);
 
     this.confettiCycle();
   }
@@ -340,7 +361,24 @@ export class BingoBoardComponent {
     this.confettiRaf = 0;
     this.confettiParticles = [];
     if (this.confettiBurstInterval) { clearInterval(this.confettiBurstInterval); this.confettiBurstInterval = 0; }
+
+    // remove/stop the canvas immediately
     this._confettiActive.set(false);
+
+    // start celebration message exit animation, then hide it when done
+    if (typeof window !== 'undefined') {
+      this._celebrationExiting.set(true);
+      // duration should be slightly longer than the CSS hide animation to ensure clean removal
+      this.celebrationHideTimer = window.setTimeout(() => {
+        this._celebrationExiting.set(false);
+        this._celebrationShown.set(false);
+        this.celebrationHideTimer = 0;
+      }, 2500);
+    } else {
+      this._celebrationExiting.set(false);
+      this._celebrationShown.set(false);
+    }
+
     // clear canvas if present
     const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement | null;
     if (canvas) {
