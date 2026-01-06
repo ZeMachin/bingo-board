@@ -12,25 +12,26 @@ import { Tile } from '../models/tile';
 
       <div class="board-wrapper">
           <div class="board" role="grid" aria-label="{{tiles().length}} by {{tiles()[0]?.length}} bingo board">
-          @for(row of tiles(); track row) {
-            @for(tile of row; track tile.id) {
-              <div class="board-cell" role="gridcell">
-                <app-bingo-tile
-                  [image]="tile.image"
-                  [alt]="tile.alt"
-                  [description]="tile.description"
-                  [tooltip]="tile.tooltip"
-                  [title]="tile.alt"
-                  [locked]="tile.locked ?? false"
-                  [checked]="tile.checked ?? false"
-                  [fun]="tile.fun ?? false"
-                  (checkedChange)="onTileChecked(tile, $event)"
-                  (info)="openModal(tile)"  
-                ></app-bingo-tile>
-              </div>
+            @for(row of tiles(); let rowIndex = $index; track row) {
+              <div class="row-label">Row {{ rowIndex + 1 }}</div>
+              @for(tile of row; track tile.id) {
+                <div class="board-cell" role="gridcell">
+                  <app-bingo-tile
+                    [image]="tile.image"
+                    [alt]="tile.alt"
+                    [description]="tile.description"
+                    [tooltip]="tile.tooltip"
+                    [title]="tile.alt"
+                    [locked]="tile.locked ?? false"
+                    [checked]="tile.checked ?? false"
+                    [fun]="tile.fun ?? false"
+                    (checkedChange)="onTileChecked(tile, $event)"
+                    (info)="openModal(tile)"  
+                  ></app-bingo-tile>
+                </div>
+              }
             }
-          }
-        </div>
+          </div>
 
         <aside class="side-panel" aria-label="Checked tiles summary">
           <div class="counter" aria-live="polite" aria-atomic="true">
@@ -68,7 +69,10 @@ import { Tile } from '../models/tile';
 
     /* Board layout with side panel */
     .board-wrapper { display: flex; align-items: flex-start; gap: 1rem; max-width: 1100px; margin: 0 auto; padding: 0 0.5rem; }
-    .board { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 0.5rem; align-items: stretch; }
+    .board-with-row-labels { display: flex; gap: 0.5rem; flex: 1; }
+    .row-labels { display: none; flex-direction: column; gap: 0.5rem; }
+    .row-label { display: none; padding: 0.25rem 0; text-align: center; font-size: 0.75rem; font-weight: 600; color: #666; min-width: 3rem; }
+    .board { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.5rem; align-items: stretch; }
     .board-cell { width: 100%; aspect-ratio: 1 / 1; min-width: 64px; }
 
     .side-panel { width: 140px; display:flex; align-items:center; justify-content:center; padding: 0.5rem; }
@@ -84,15 +88,19 @@ import { Tile } from '../models/tile';
       100% { transform: scale(1); }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 1000px) {
       .board-wrapper { flex-direction: column; }
       .side-panel { width: 100%; }
-      .board { grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 0.6rem; }
+      .board-with-row-labels { flex-direction: column; gap: 1rem; }
+      .row-labels { display: flex; }
+      .row-label { display: flex; align-items: center; justify-content: center; padding: 0.5rem 0; background: linear-gradient(135deg, rgba(46, 204, 113, 0.08), rgba(46, 204, 113, 0.04)); border-left: 3px solid #2ecc71; border-radius: 0 4px 4px 0; font-weight: 700; color: #27ae60; font-size: 0.8rem; min-height: 72px; min-width: 4rem; }
+      .board { grid-template-columns: 1fr; gap: 0.6rem; width: 100%; }
     }
 
     @media (max-width: 420px) {
-      .board { grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); gap: 0.5rem; }
+      .board { grid-template-columns: 1fr; gap: 0.5rem; }
       .counter-value { font-size: 1.1rem; }
+      .row-label { font-size: 0.75rem; min-width: 3.5rem; }
     }
 
     /* Modal styles */
@@ -137,14 +145,6 @@ import { Tile } from '../models/tile';
     @keyframes celebration-hide {
       0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
       100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
-    }
-
-    @media (max-width: 700px) {
-      /* On small screens show tiles row-by-row (one column) to improve readability */
-      .board { grid-template-columns: 1fr; gap: 0.6rem; }
-      .board-cell { min-width: auto; aspect-ratio: 1 / 1; }
-      /* ensure side panel sits below the board and spans full width */
-      .side-panel { width: 100%; order: 2; }
     }
   `],
   imports: [CommonModule, BingoTileComponent],
