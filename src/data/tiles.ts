@@ -373,9 +373,10 @@ export const tilesData: Tile[][] = [
         },
         {
             id: 48,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/jad.png",
+            alt: "Jad",
+            description: "Complete the Fight Caves with melee only",
+            tooltip: `Same requirements as the Combat Achievement. Please tick the "Combat Achievement Tasks - Repeat completion" box in your OSRS settings for an easier submission.`,
             challenge: true,
             weight: 0
         },
