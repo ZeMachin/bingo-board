@@ -50,7 +50,15 @@ import { Tile } from '../models/tile';
         </div>
       }
 
-    </section>
+      @if(confettiActive()) {
+        <canvas id="confetti-canvas" class="confetti-canvas" tabindex="-1" aria-hidden="true"></canvas>
+        <div id="celebration-message" class="celebration-message" role="status" aria-live="assertive" tabindex="-1">
+          🎉 <strong>Congratulations!</strong><br/>You completed the board!
+        </div>
+        <div class="visually-hidden" role="status" aria-live="polite">Bingo! All tiles checked. Congratulations!</div>
+      }
+
+    </section>"
   `,
   styles: [`
     .board-container { padding: 1rem; }
@@ -84,6 +92,34 @@ import { Tile } from '../models/tile';
     .modal-close { background: var(--osrs-accent); border: none; padding: 0.4rem 0.8rem; border-radius: 4px; margin-top: 0.75rem; cursor: pointer; }
     .modal-close:focus { outline: none; box-shadow: 0 0 0 3px rgba(212,175,55,0.25); }
 
+    /* Confetti canvas overlay */
+    .confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1200; width: 100%; height: 100%; mix-blend-mode: normal; }
+
+    .celebration-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.98);
+      z-index: 1300;
+      background: rgba(255,255,255,0.92);
+      padding: 0.8rem 1.2rem;
+      border-radius: 12px;
+      font-size: clamp(1.25rem, 3.6vw, 2.6rem);
+      color: #073B4C;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(7,59,76,0.25);
+      border: 2px solid rgba(7,59,76,0.06);
+      line-height: 1;
+      pointer-events: none;
+      animation: celebration-pop 650ms cubic-bezier(.2,.9,.3,1) forwards;
+    }
+    @keyframes celebration-pop {
+      0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+      60% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
     @media (max-width: 700px) { .board { grid-template-columns: repeat(4, 1fr); } }
   `],
   imports: [CommonModule, BingoTileComponent],
@@ -98,7 +134,7 @@ export class BingoBoardComponent {
     let c = 0;
     for (const row of rows) {
       for (const t of row) {
-        if (t.checked) c+=t.weight;
+        if (t.checked) c += t.weight;
       }
     }
     return c;
@@ -119,6 +155,15 @@ export class BingoBoardComponent {
 
   // counter pulse animation signal (exposed to template)
   readonly counterPulse = signal(false);
+
+  // confetti state (shown when all non-fun tiles are checked)
+  private _confettiActive = signal(false);
+  readonly confettiActive = this._confettiActive;
+
+  // internals for canvas animation
+  private confettiRaf = 0;
+  private confettiBurstInterval = 0;
+  private confettiParticles: Array<{ x: number; y: number; vx: number; vy: number; size: number; color: string; rot: number; vr: number; shape?: string; opacity?: number }> = [];
 
   constructor() {
     // load saved checked state and merge into tiles on startup
@@ -149,8 +194,148 @@ export class BingoBoardComponent {
       });
     }
 
+    // trigger confetti when all non-fun tiles are checked
+    effect(() => {
+      this.checkConfettiTrigger();
+    });
+
     // update challenge tile locks
     this.updateChallengeLocks();
+  }
+
+  private checkConfettiTrigger() {
+    if (this.isBoardCompleted()) this.triggerConfetti();
+  }
+
+  private isBoardCompleted = () => this.checkedCount() === this.totalCount() && this.totalCount() > 0;
+
+  private triggerConfetti() {
+    if (typeof window === 'undefined') return; // no-op during SSR
+    if (this._confettiActive()) return; // already running
+
+    const CONFETTI_TIME_CYCLE = 800;
+    this.confettiCycle(CONFETTI_TIME_CYCLE);
+  }
+
+  private confettiCycle(animationDuration: number) {
+    // ensure canvas is in DOM then initialize
+    if (!this._confettiActive()) this.initConfetti(animationDuration);
+    this._confettiActive.set(true);
+    // auto-stop after a short duration (give a bit more time for bursts and message)
+    setTimeout(() => this.stopConfetti(), animationDuration);
+  }
+
+  private initConfetti(interval: number) {
+    const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width = Math.max(window.innerWidth, 300) * DPR;
+    canvas.height = Math.max(window.innerHeight, 200) * DPR;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    const colors = ['#EF476F', '#FFD166', '#06D6A0', '#118AB2', '#073B4C', '#9B5DE5', '#F9C74F'];
+    const baseCount = 220;
+    this.confettiParticles = [];
+
+    const addParticle = (spawnX?: number, spawnY?: number) => {
+      const x = typeof spawnX === 'number' ? spawnX : Math.random() * window.innerWidth;
+      const y = typeof spawnY === 'number' ? spawnY : Math.random() * -window.innerHeight * 0.4;
+      const size = Math.random() * 14 + 6;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const shapeRoll = Math.random();
+      const shape = shapeRoll < 0.6 ? 'rect' : shapeRoll < 0.85 ? 'circle' : 'triangle';
+      this.confettiParticles.push({
+        x,
+        y,
+        vx: (Math.random() - 0.5) * (6 + Math.random() * 6),
+        vy: Math.random() * 6 + 2 - Math.random() * 2,
+        size,
+        color,
+        rot: Math.random() * Math.PI * 2,
+        vr: (Math.random() - 0.5) * 0.8,
+        shape,
+        opacity: 0.9 + Math.random() * 0.1,
+      } as any);
+    };
+
+    for (let i = 0; i < baseCount; i++) addParticle();
+
+    // periodic center bursts while active
+    this.confettiBurstInterval = window.setInterval(() => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      for (let i = 0; i < 36; i++) addParticle(cx + (Math.random() - 0.5) * 240, cy + (Math.random() - 0.5) * 120);
+    }, interval) as unknown as number;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of this.confettiParticles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx += Math.sin((p.y + p.x) * 0.01) * 0.02;
+        p.vy += 0.12; // gravity
+        p.rot += p.vr;
+
+        ctx.save();
+        ctx.globalAlpha = p.opacity ?? 1;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        if (p.shape === 'circle') {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (p.shape === 'triangle') {
+          ctx.beginPath();
+          ctx.moveTo(0, -p.size / 2);
+          ctx.lineTo(p.size / 2, p.size / 2);
+          ctx.lineTo(-p.size / 2, p.size / 2);
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+        }
+        ctx.restore();
+      }
+
+      // age & fade particles
+      for (const p of this.confettiParticles) p.opacity = Math.max(0, (p.opacity ?? 1) - 0.003);
+      this.confettiParticles = this.confettiParticles.filter(p => p.y < window.innerHeight + 80 && (p.opacity ?? 1) > 0.02);
+
+      if (this.confettiParticles.length === 0) {
+        // done
+        this.stopConfetti();
+        return;
+      }
+      this.confettiRaf = requestAnimationFrame(draw);
+    };
+
+    // focus the message for assistive tech
+    setTimeout(() => {
+        const el = document.getElementById('celebration-message');
+        if (el) (el as HTMLElement).focus();
+    }, 300);
+
+    this.confettiRaf = requestAnimationFrame(draw);
+  }
+
+  private stopConfetti() {
+    if (this.confettiRaf) cancelAnimationFrame(this.confettiRaf);
+    this.confettiRaf = 0;
+    this.confettiParticles = [];
+    if (this.confettiBurstInterval) { clearInterval(this.confettiBurstInterval); this.confettiBurstInterval = 0; }
+    this._confettiActive.set(false);
+    // clear canvas if present
+    const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement | null;
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
   }
 
   getTiles(): Tile[][] {
