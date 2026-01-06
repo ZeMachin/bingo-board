@@ -162,7 +162,7 @@ export const tilesData: Tile[][] = [
             image: "assets/images/dragon_items.png",
             alt: "Dragon items",
             description: "Dragon med helm<br>Dragon halberd<br>Dragon pickaxe<br> Dragon longsword<br>Dragon 2h sword<br> Dragon platelegs OR plateskirt",
-            tooltip: "Dragon items from clue caskets will NOT be accepted, since those can be prepped.",
+            tooltip: "Dragon med helm<br>Dragon halberd<br>Dragon pickaxe<br> Dragon longsword<br>Dragon 2h sword<br> Dragon platelegs OR plateskirt<br><b>Dragon items from clue caskets will NOT be accepted, since those can be prepped.<b>",
             weight: 1
         }
     ],
