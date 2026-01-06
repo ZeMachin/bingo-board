@@ -32,15 +32,16 @@ html, body {
   font-family: Arial, sans-serif;
   background: #f8f8f8;
   height: 100%;
-  overflow: hidden;
+  /* allow scrolling on mobile and avoid hiding content */
+  overflow: auto;
 }
 
 body > app-root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  height: 100vh;
-}
+  /* avoid forcing exact viewport height on mobile browsers */
+} 
 
 body {
   margin: 0;
@@ -94,12 +95,15 @@ header h1 {
 }
   .bingo-board {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
     gap: 8px;
     margin: 32px auto;
-    max-width: 500px;
     width: 100%;
-    height: auto;
+    max-width: 900px;
     box-sizing: border-box;
+    align-items: stretch;
+  }
+
+  @media (max-width: 420px) {
+    .bingo-board { gap: 6px; margin: 16px auto; }
   }

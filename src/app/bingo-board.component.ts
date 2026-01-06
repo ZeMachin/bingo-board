@@ -11,7 +11,7 @@ import { Tile } from '../models/tile';
       <h2 class="visually-hidden">Bingo board</h2>
 
       <div class="board-wrapper">
-        <div class="board" role="grid" aria-label="7 by 7 bingo board">
+          <div class="board" role="grid" aria-label="{{tiles().length}} by {{tiles()[0]?.length}} bingo board">
           @for(row of tiles(); track row) {
             @for(tile of row; track tile.id) {
               <div class="board-cell" role="gridcell">
@@ -67,9 +67,9 @@ import { Tile } from '../models/tile';
     .visually-hidden { position:absolute !important; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 
     /* Board layout with side panel */
-    .board-wrapper { display: flex; align-items: flex-start; gap: 1rem; max-width: 1100px; margin: 0 auto; }
-    .board { flex: 1; display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; }
-    .board-cell { width: 100%; }
+    .board-wrapper { display: flex; align-items: flex-start; gap: 1rem; max-width: 1100px; margin: 0 auto; padding: 0 0.5rem; }
+    .board { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 0.5rem; align-items: stretch; }
+    .board-cell { width: 100%; aspect-ratio: 1 / 1; min-width: 64px; }
 
     .side-panel { width: 140px; display:flex; align-items:center; justify-content:center; padding: 0.5rem; }
     .counter { background: linear-gradient(180deg, #fff, #f6f6f6); border: 2px solid rgba(0,0,0,0.06); border-radius: 8px; padding: 0.6rem 0.8rem; text-align:center; box-shadow: 3px 3px 0 rgba(0,0,0,0.06); }
@@ -84,7 +84,16 @@ import { Tile } from '../models/tile';
       100% { transform: scale(1); }
     }
 
-    @media (max-width: 700px) { .board-wrapper { flex-direction: column; } .side-panel { width: 100%; } }
+    @media (max-width: 700px) {
+      .board-wrapper { flex-direction: column; }
+      .side-panel { width: 100%; }
+      .board { grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 0.6rem; }
+    }
+
+    @media (max-width: 420px) {
+      .board { grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); gap: 0.5rem; }
+      .counter-value { font-size: 1.1rem; }
+    }
 
     /* Modal styles */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index: 1100; }
@@ -130,7 +139,13 @@ import { Tile } from '../models/tile';
       100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
     }
 
-    @media (max-width: 700px) { .board { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 700px) {
+      /* On small screens show tiles row-by-row (one column) to improve readability */
+      .board { grid-template-columns: 1fr; gap: 0.6rem; }
+      .board-cell { min-width: auto; aspect-ratio: 1 / 1; }
+      /* ensure side panel sits below the board and spans full width */
+      .side-panel { width: 100%; order: 2; }
+    }
   `],
   imports: [CommonModule, BingoTileComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
