@@ -5,7 +5,7 @@ export const tilesData: Tile[][] = [
         {
             id: 1,
             image: "assets/images/tob.png",
-            alt: "ToB",
+            alt: "Thematic ToB",
             description: "Barrows only ToB",
             tooltip: " Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you. This can only be done with members of your team.",
             challenge: true,
