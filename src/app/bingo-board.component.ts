@@ -98,18 +98,17 @@ export class BingoBoardComponent {
     let c = 0;
     for (const row of rows) {
       for (const t of row) {
-        if (t.checked) c++;
+        if (t.checked) c+=t.weight;
       }
     }
     return c;
   });
 
   readonly totalCount = computed(() => {
-    const rows = this._tiles();
-    let total = 0;
-    for (const row of rows) total += row.length;
-    return total;
+    return this._tiles().map((tiles) => this.sumWeight(tiles)).reduce((a, b) => a + b, 0);
   });
+
+  sumWeight = (tiles: Tile[]) => tiles.filter((tile) => !tile.fun).map((tile) => tile.weight).reduce((a, b) => a + b, 0);
 
   // modal state
   private _modal = signal<Tile | null>(null);

@@ -8,4 +8,5 @@ export interface Tile {
     checked?: boolean;
     challenge?: boolean;
     fun?: boolean;
+    weight: number;
 }
