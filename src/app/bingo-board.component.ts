@@ -113,6 +113,7 @@ import { Tile } from '../models/tile';
       line-height: 1;
       pointer-events: none;
       animation: celebration-pop 650ms cubic-bezier(.2,.9,.3,1) forwards;
+      z-index: 5;
     }
     @keyframes celebration-pop {
       0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
@@ -213,19 +214,19 @@ export class BingoBoardComponent {
     if (typeof window === 'undefined') return; // no-op during SSR
     if (this._confettiActive()) return; // already running
 
-    const CONFETTI_TIME_CYCLE = 800;
-    this.confettiCycle(CONFETTI_TIME_CYCLE);
+    this.confettiCycle();
   }
 
-  private confettiCycle(animationDuration: number) {
+  private confettiCycle() {
+    const CONFETTI_CYCLE_LENGTH = 2500;
     // ensure canvas is in DOM then initialize
-    if (!this._confettiActive()) this.initConfetti(animationDuration);
+    if (!this._confettiActive()) this.initConfetti(CONFETTI_CYCLE_LENGTH);
     this._confettiActive.set(true);
     // auto-stop after a short duration (give a bit more time for bursts and message)
-    setTimeout(() => this.stopConfetti(), animationDuration);
+    setTimeout(() => this.stopConfetti(), CONFETTI_CYCLE_LENGTH);
   }
 
-  private initConfetti(interval: number) {
+  private initConfetti(cycleLength: number) {
     const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement | null;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -265,12 +266,22 @@ export class BingoBoardComponent {
 
     for (let i = 0; i < baseCount; i++) addParticle();
 
-    // periodic center bursts while active
-    this.confettiBurstInterval = window.setInterval(() => {
+    const MID_CENTER_BURST_INTERVALS = 200;
+
+    const centerBurstConfettis = () => {
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
       for (let i = 0; i < 36; i++) addParticle(cx + (Math.random() - 0.5) * 240, cy + (Math.random() - 0.5) * 120);
-    }, interval) as unknown as number;
+    }
+
+    // periodic center bursts while active
+    for (let i = 0; i < cycleLength - (MID_CENTER_BURST_INTERVALS * 5); i += MID_CENTER_BURST_INTERVALS)
+      setTimeout(() => centerBurstConfettis(), i);
+
+    // periodic center bursts while active
+    // this.confettiBurstInterval = window.setInterval(() => {
+    //   centerBurstConfettis();
+    // }, MID_CENTER_BURST_INTERVALS) as unknown as number;
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -317,8 +328,8 @@ export class BingoBoardComponent {
 
     // focus the message for assistive tech
     setTimeout(() => {
-        const el = document.getElementById('celebration-message');
-        if (el) (el as HTMLElement).focus();
+      const el = document.getElementById('celebration-message');
+      if (el) (el as HTMLElement).focus();
     }, 300);
 
     this.confettiRaf = requestAnimationFrame(draw);
