@@ -9,7 +9,7 @@ export const tilesData: Tile[][] = [
             description: "Barrows only ToB",
             tooltip: "Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you. This can only be done with members of your team.",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 2,
@@ -62,7 +62,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 9,
@@ -117,7 +117,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 16,
@@ -173,7 +173,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 23,
@@ -227,7 +227,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 30,
@@ -284,7 +284,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 37,
@@ -346,7 +346,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 45,
@@ -354,7 +354,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 46,
@@ -362,7 +362,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 47,
@@ -370,7 +370,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 48,
@@ -379,7 +379,7 @@ export const tilesData: Tile[][] = [
             description: "Complete the Fight Caves with melee only",
             tooltip: `Same requirements as the Combat Achievement. Please tick the "Combat Achievement Tasks - Repeat completion" box in your OSRS settings for an easier submission.`,
             challenge: true,
-            weight: 0
+            weight: 5
         },
         {
             id: 49,
@@ -387,7 +387,7 @@ export const tilesData: Tile[][] = [
             alt: "Mystery",
             description: "???",
             challenge: true,
-            weight: 0
+            weight: 5
         }
     ]
 ];
