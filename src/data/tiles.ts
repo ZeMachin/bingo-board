@@ -250,7 +250,7 @@ export const tilesData: Tile[][] = [
             image: "assets/images/yama.png",
             alt: "Yama",
             description: "1 Yama unique.",
-            tooltip: "Includes: Soulflame horn, Oathplate helm, Oathplate chest, Oathplate legs, Yami.",
+            tooltip: "Includes: Soulflame horn, Oathplate helm, Oathplate chest, Oathplate legs, Yami.<br>Lockboxes and special contracts do NOT count.",
             weight: 1
         },
         {
