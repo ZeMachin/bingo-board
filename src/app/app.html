@@ -3,7 +3,7 @@
     <h1>Trailer Boys' Winter Bingo</h1>
   </header>
 
-  <app-team-selection (selectTeam)="onSelectTeam($event)"/>
+  <app-team-selection (selectTeam)="onSelectTeam($event)"></app-team-selection>
   @if(selectedTeam){<app-bingo-board [selectedTeam]="selectedTeam"></app-bingo-board>}
 
   <footer class="version">v{{ version }}</footer>

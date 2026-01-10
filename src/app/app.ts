@@ -19,7 +19,6 @@ export class App {
 
   onSelectTeam(team: Team) {
     this.selectedTeam = team;
-    console.log('on select team:', this.selectedTeam)
     this.board?.selectTeam(team);
   }
 }

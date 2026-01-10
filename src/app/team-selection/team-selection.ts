@@ -21,9 +21,7 @@ export class TeamSelection {
 
   teamSelection(team: Team) {
     this.selectedTeam = team;
-    console.log('selected team:', this.selectedTeam);
     this.selectTeam.emit(this.selectedTeam);
-    console.log('emitted value:', this.selectedTeam)
   }
 
   isSelected(team: Team): boolean {

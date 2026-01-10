@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BingoTileComponent } from './bingo-tile.component';
+import { BingoTileComponent } from './bingo-tile/bingo-tile.component';
 import { tilesData } from '../data/tiles';
 import { Tile } from '../models/tile';
 import { teams as teamsData } from '../data/teams';
