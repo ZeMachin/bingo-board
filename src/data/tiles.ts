@@ -44,7 +44,7 @@ export const tilesData: Tile[][] = [
             image: "assets/images/zulrah.png",
             alt: "Zulrah",
             description: "5 Zulrah uniques",
-            tooltip: "Tanzanite fang, Serpentine helm, Magic fang, Magma mutagen, Tanzanite mutagen, Pet snakeling or Jar of swamp. No onyx.",
+            tooltip: "Tanzanite fang, Serpentine visage, Magic fang, Magma mutagen, Tanzanite mutagen, Pet snakeling or Jar of swamp. No onyx.",
             weight: 1
         },
         {
