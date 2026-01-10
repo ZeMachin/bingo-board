@@ -4,6 +4,7 @@ import { BingoTileComponent } from '../bingo-tile/bingo-tile.component';
 import { tilesData } from '../../data/tiles';
 import { Tile } from '../../models/tile';
 import { Team } from '../../models/team';
+import { GoogleSheetsService } from '../shared/google-sheets.service';
 
 @Component({
   selector: 'app-bingo-board',
@@ -149,6 +150,7 @@ import { Team } from '../../models/team';
     }
   `],
   imports: [CommonModule, BingoTileComponent],
+  providers: [GoogleSheetsService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BingoBoardComponent implements OnInit {
@@ -199,7 +201,9 @@ export class BingoBoardComponent implements OnInit {
   private confettiBurstInterval = 0;
   private confettiParticles: Array<{ x: number; y: number; vx: number; vy: number; size: number; color: string; rot: number; vr: number; shape?: string; opacity?: number }> = [];
 
-  constructor() {
+  constructor(
+    private _googleSheetsService: GoogleSheetsService
+  ) {
     // pulse the counter when checkedCount changes
     effect(() => {
       // read the value so effect re-runs on changes
@@ -532,12 +536,13 @@ export class BingoBoardComponent implements OnInit {
     return c;
   }
 
-  selectTeam(team: Team) {
+  async selectTeam(team: Team) {
     this.selectedTeam = team;
     const saved = this.loadSavedCheckedForTeam(this.selectedTeam);
     const merged = this.getTiles().map(row => row.map(t => ({ ...t, checked: saved[t.id] ?? false })));
     this._tiles.set(merged);
     this.updateChallengeLocks();
+    console.log('data:', await this._googleSheetsService.getData());
   }
 
   private saveCheckedToStorage() {
