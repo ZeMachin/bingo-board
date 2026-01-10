@@ -1,10 +1,9 @@
-import { Component, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, effect, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BingoTileComponent } from './bingo-tile.component';
-import { tilesData } from '../data/tiles';
-import { Tile } from '../models/tile';
-import { teams as teamsData } from '../data/teams';
-import { Team } from '../models/team';
+import { BingoTileComponent } from '../bingo-tile/bingo-tile.component';
+import { tilesData } from '../../data/tiles';
+import { Tile } from '../../models/tile';
+import { Team } from '../../models/team';
 
 @Component({
   selector: 'app-bingo-board',
@@ -82,13 +81,6 @@ import { Team } from '../models/team';
     .counter-label { font-size: 0.75rem; color: #666; }
     .counter-value { font-size: 1.4rem; font-weight: 700; color: #2ecc71; margin-top:0.25rem; }
 
-    .teams { margin-bottom: 0.6rem; display:flex; flex-direction:column; gap:0.35rem; max-height: 220px; overflow:auto; }
-    .teams-label { font-size:0.75rem; color:#666; font-weight:700; margin-bottom:0.25rem; }
-    .team-item { display:flex; justify-content:space-between; align-items:center; padding:0.35rem 0.5rem; border-radius:6px; background:transparent; border:none; cursor:pointer; text-align:left; width:100%; }
-    .team-item[aria-selected="true"] { background: linear-gradient(90deg, rgba(46,204,113,0.12), rgba(46,204,113,0.04)); border-left: 3px solid #2ecc71; font-weight:700; }
-    .team-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .team-count { font-size:0.9rem; color:#27ae60; font-weight:800; margin-left:0.5rem; }
-
     /* Pulse animation when count changes */
     .counter-value.pulse { animation: bump 260ms cubic-bezier(.2,.9,.3,1); }
     @keyframes bump {
@@ -159,7 +151,8 @@ import { Team } from '../models/team';
   imports: [CommonModule, BingoTileComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BingoBoardComponent {
+export class BingoBoardComponent implements OnInit {
+  @Input() selectedTeam!: Team;
   private _tiles = signal<Tile[][]>(this.getTiles());
   readonly tiles = this._tiles;
 
@@ -180,17 +173,12 @@ export class BingoBoardComponent {
 
   sumWeight = (tiles: Tile[]) => tiles.filter((tile) => !tile.fun).map((tile) => tile.weight).reduce((a, b) => a + b, 0);
 
+  // teams & per-team persistence
+  private readonly storageKeyPrefix = 'bingo:checked-tiles:';
+
   // modal state
   private _modal = signal<Tile | null>(null);
   readonly modalTile = this._modal;
-
-  // teams & per-team persistence
-  private readonly storageKeyPrefix = 'bingo:checked-tiles:';
-  private _teams = signal<Team[]>(teamsData);
-  readonly teams = this._teams;
-  private _selectedTeamIndex = signal(0);
-  readonly selectedTeamIndex = this._selectedTeamIndex;
-  readonly selectedTeam = computed(() => this._teams()[this._selectedTeamIndex()]);
 
   // counter pulse animation signal (exposed to template)
   readonly counterPulse = signal(false);
@@ -212,28 +200,6 @@ export class BingoBoardComponent {
   private confettiParticles: Array<{ x: number; y: number; vx: number; vy: number; size: number; color: string; rot: number; vr: number; shape?: string; opacity?: number }> = [];
 
   constructor() {
-    // load saved checked state for the selected team and merge into tiles on startup
-    const saved = this.loadSavedCheckedForIndex(this._selectedTeamIndex());
-    if (Object.keys(saved).length) {
-      const merged = this.getTiles().map(row => row.map(t => ({ ...t, checked: saved[t.id] ?? false })));
-      this._tiles.set(merged);
-    }
-
-    // migrate legacy single-board storage into the first team (if present and empty)
-    if (typeof localStorage !== 'undefined') {
-      try {
-        const legacy = localStorage.getItem('bingo:checked-tiles');
-        if (legacy) {
-          const parsedLegacy = JSON.parse(legacy);
-          const currentForFirst = this.loadSavedCheckedForIndex(this._selectedTeamIndex());
-          if (Object.keys(currentForFirst).length === 0) {
-            localStorage.setItem(this.storageKeyForIndex(this._selectedTeamIndex()), legacy);
-            localStorage.removeItem('bingo:checked-tiles');
-          }
-        }
-      } catch (err) {/* ignore */}
-    }
-
     // pulse the counter when checkedCount changes
     effect(() => {
       // read the value so effect re-runs on changes
@@ -249,9 +215,9 @@ export class BingoBoardComponent {
         try {
           const key = e.key;
           if (typeof key === 'string' && key.startsWith(this.storageKeyPrefix)) {
-            const currentKey = this.storageKeyForIndex(this._selectedTeamIndex());
+            const currentKey = this.storageKeyForTeam(this.selectedTeam);
             if (key === currentKey) {
-              const saved2 = this.loadSavedCheckedForIndex(this._selectedTeamIndex());
+              const saved2 = this.loadSavedCheckedForTeam(this.selectedTeam);
               this._tiles.update(rows => rows.map(row => row.map(t => ({ ...t, checked: saved2[t.id] ?? false }))));
             }
           }
@@ -266,6 +232,30 @@ export class BingoBoardComponent {
 
     // update challenge tile locks
     this.updateChallengeLocks();
+  }
+
+  ngOnInit(): void {
+    // load saved checked state for the selected team and merge into tiles on startup
+    const saved = this.loadSavedCheckedForTeam(this.selectedTeam);
+    if (Object.keys(saved).length) {
+      const merged = this.getTiles().map(row => row.map(t => ({ ...t, checked: saved[t.id] ?? false })));
+      this._tiles.set(merged);
+    }
+
+    // migrate legacy single-board storage into the first team (if present and empty)
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const legacy = localStorage.getItem('bingo:checked-tiles');
+        if (legacy) {
+          const parsedLegacy = JSON.parse(legacy);
+          const currentForFirst = this.loadSavedCheckedForTeam(this.selectedTeam);
+          if (Object.keys(currentForFirst).length === 0) {
+            localStorage.setItem(this.storageKeyForTeam(this.selectedTeam), legacy);
+            localStorage.removeItem('bingo:checked-tiles');
+          }
+        }
+      } catch (err) {/* ignore */}
+    }
   }
 
   private checkConfettiTrigger() {
@@ -509,15 +499,14 @@ export class BingoBoardComponent {
     this._modal.set(null);
   }
 
-  private storageKeyForIndex(index: number) {
-    const name = this._teams()[index]?.name ?? 'unknown';
-    return this.storageKeyPrefix + encodeURIComponent(name);
+  private storageKeyForTeam(team: Team) {
+    return this.storageKeyPrefix + encodeURIComponent(team.name);
   }
 
-  private loadSavedCheckedForIndex(index: number): Record<number, boolean> {
+  private loadSavedCheckedForTeam(team: Team): Record<number, boolean> {
     try {
       if (typeof localStorage === 'undefined') return {};
-      const raw = localStorage.getItem(this.storageKeyForIndex(index));
+      const raw = localStorage.getItem(this.storageKeyForTeam(team));
       if (!raw) return {};
       const parsed = JSON.parse(raw) as number[] | Record<string, boolean>;
       const map: Record<number, boolean> = {};
@@ -533,7 +522,7 @@ export class BingoBoardComponent {
   }
 
   teamCheckedCount(index: number) {
-    const saved = this.loadSavedCheckedForIndex(index);
+    const saved = this.loadSavedCheckedForTeam(this.selectedTeam);
     let c = 0;
     for (const row of this.getTiles()) {
       for (const t of row) {
@@ -543,10 +532,10 @@ export class BingoBoardComponent {
     return c;
   }
 
-  selectTeam(index: number) {
-    if (index === this._selectedTeamIndex()) return;
-    this._selectedTeamIndex.set(index);
-    const saved = this.loadSavedCheckedForIndex(index);
+  selectTeam(team: Team) {
+    console.log('selecting team:', team)
+    this.selectedTeam = team;
+    const saved = this.loadSavedCheckedForTeam(this.selectedTeam);
     const merged = this.getTiles().map(row => row.map(t => ({ ...t, checked: saved[t.id] ?? false })));
     this._tiles.set(merged);
     this.updateChallengeLocks();
@@ -558,7 +547,7 @@ export class BingoBoardComponent {
       const rows = this._tiles();
       const checkedIds: number[] = [];
       for (const row of rows) for (const t of row) if (t.checked) checkedIds.push(t.id);
-      const key = this.storageKeyForIndex(this._selectedTeamIndex());
+      const key = this.storageKeyForTeam(this.selectedTeam);
       localStorage.setItem(key, JSON.stringify(checkedIds));
     } catch (err) { /* ignore */ }
   }
