@@ -1,13 +1,10 @@
-<p>team-selection works!</p>
- <aside>
-    <div class="teams" role="listbox" aria-label="Teams">
-      <div class="teams-label">Teams</div>
-      @for(team of teams(); let i = $index; track team.name) {
-      <button type="button" class="team-item" [attr.aria-selected]="isSelected(team)"
-        (click)="teamSelection(team)">
-        <span class="team-name">{{ team.name }}</span>
-        <span class="team-count">{{ teamCheckedCount(team) }} / {{ totalCount() }}</span>
-      </button>
-      }
-    </div>
-  </aside>
+<div class="teams" role="listbox" aria-label="Teams">
+  <div class="teams-label">Teams</div>
+  @for(team of teams(); let i = $index; track team.name) {
+  <button type="button" class="team-item" [attr.aria-selected]="isSelected(team)"
+    (click)="teamSelection(team)">
+    <span class="team-name">{{ team.name }}</span>
+    <span class="team-count">{{ teamCheckedCount(team) }} / {{ totalCount() }}</span>
+  </button>
+  }
+</div>

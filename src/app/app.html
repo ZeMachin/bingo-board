@@ -1,10 +1,18 @@
-<main>
+<main class="layout">
   <header>
     <h1>Trailer Boys' Winter Bingo</h1>
   </header>
 
-  <app-team-selection (selectTeam)="onSelectTeam($event)"></app-team-selection>
-  @if(selectedTeam){<app-bingo-board [selectedTeam]="selectedTeam"></app-bingo-board>}
+  <div class="content">
+    <aside class="sidebar" aria-labelledby="teams-heading">
+      <h2 id="teams-heading" class="visually-hidden">Teams</h2>
+      <app-team-selection (selectTeam)="onSelectTeam($event)"></app-team-selection>
+    </aside>
+
+    <section class="board" role="region" aria-labelledby="board-heading">
+      @if(selectedTeam){<h2 id="board-heading" class="visually-hidden">Bingo board for {{ selectedTeam.name }}</h2><app-bingo-board [selectedTeam]="selectedTeam"></app-bingo-board>}
+    </section>
+  </div>
 
   <footer class="version">v{{ version }}</footer>
 </main>

@@ -1,47 +1,63 @@
 .teams {
-    margin-bottom: 0.6rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    max-height: 220px;
-    overflow: auto;
+  margin-bottom: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+  padding-right: 0.25rem;
 }
 
 .teams-label {
-    font-size: 0.75rem;
-    color: #666;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
 .team-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.35rem 0.5rem;
-    border-radius: 6px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 120ms ease, transform 120ms ease;
+}
+
+.team-item:hover {
+  background: #f6f8fa;
+  transform: translateY(-1px);
+}
+
+.team-item:focus {
+  outline: none;
+}
+
+.team-item:focus-visible {
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.12);
+  border-left: 3px solid #2ecc71;
 }
 
 .team-item[aria-selected="true"] {
-    background: linear-gradient(90deg, rgba(46, 204, 113, 0.12), rgba(46, 204, 113, 0.04));
-    border-left: 3px solid #2ecc71;
-    font-weight: 700;
+  background: linear-gradient(90deg, rgba(46, 204, 113, 0.12), rgba(46, 204, 113, 0.04));
+  border-left: 3px solid #2ecc71;
+  font-weight: 700;
 }
 
 .team-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .team-count {
-    font-size: 0.9rem;
-    color: #27ae60;
-    font-weight: 800;
-    margin-left: 0.5rem;
+  font-size: 0.9rem;
+  color: #27ae60;
+  font-weight: 800;
+  margin-left: 0.5rem;
 }

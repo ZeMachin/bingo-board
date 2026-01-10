@@ -533,7 +533,6 @@ export class BingoBoardComponent implements OnInit {
   }
 
   selectTeam(team: Team) {
-    console.log('selecting team:', team)
     this.selectedTeam = team;
     const saved = this.loadSavedCheckedForTeam(this.selectedTeam);
     const merged = this.getTiles().map(row => row.map(t => ({ ...t, checked: saved[t.id] ?? false })));

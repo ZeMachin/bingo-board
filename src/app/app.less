@@ -1,8 +1,60 @@
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Two-column content: sidebar + board */
+.content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Sidebar card */
+.sidebar {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(12, 22, 36, 0.06);
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+}
+
+/* Board section */
+.board {
+  background: transparent;
+}
+
+/* Footer version */
 .version {
-  position: fixed;
-  bottom: 10px;
-  right: 32px;
-  font-size: 12px;
-  color: #999;
-  opacity: 0.5;
+  text-align: right;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* Accessible helper */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 720px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    order: 0;
+    max-height: none;
+  }
 }
