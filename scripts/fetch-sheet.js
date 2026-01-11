@@ -56,25 +56,68 @@ async function main() {
     const doc = new GoogleSpreadsheet(sheetId, jwt);
     await doc.loadInfo();
     console.log('Loaded doc:', doc.title);
-    const sheet = doc.sheetsByIndex[0];
+
+    // pick sheet using title (preferred) or index
+    let sheet = null;
+    if (env.SHEET_TAB_TITLE) sheet = doc.sheetsByTitle && doc.sheetsByTitle[env.SHEET_TAB_TITLE];
+    if (!sheet) {
+      const idx = env.SHEET_TAB_INDEX ? Number(env.SHEET_TAB_INDEX) : 0;
+      sheet = doc.sheetsByIndex[idx];
+    }
+    if (!sheet) {
+      console.error('Could not locate requested sheet tab (by title or index)');
+      process.exit(2);
+    }
     console.log('Sheet:', sheet.title, 'rows:', sheet.rowCount);
+
+    const headerRow = env.SHEET_HEADER_ROW ? Number(env.SHEET_HEADER_ROW) : 1;
+    let headersAvailable = false;
+    try { headersAvailable = Array.isArray(sheet.headerValues) && sheet.headerValues.length > 0; } catch (e) { headersAvailable = false; }
+
+    if ((headerRow > 1) || !headersAvailable) {
+      try {
+        let token = jwt.credentials && jwt.credentials.access_token;
+        if (!token) {
+          const at = await jwt.getAccessToken();
+          token = typeof at === 'string' ? at : at && at.token;
+        }
+        if (token) {
+          const range = `'${sheet.title}'!${headerRow}:${headerRow}`;
+          const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(range)}?majorDimension=ROWS`;
+          const resp = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+          if (resp.ok) {
+            const j = await resp.json();
+            if (Array.isArray(j.values) && j.values.length > 0) {
+              sheet.headerValues = j.values[0].map(v => String(v));
+              console.log('Header values fetched:', sheet.headerValues);
+            } else {
+              console.warn('No header values returned from API');
+            }
+          } else {
+            console.warn('Could not fetch header row:', await resp.text());
+          }
+        }
+      } catch (err) { console.warn('Failed to fetch header row:', err); }
+    }
+
     try {
       const rows = await sheet.getRows({ limit: 5 });
       console.log('First rows:');
       for (const r of rows) console.log(r._rawData);
     } catch (errRows) {
       console.warn('Could not read rows (maybe no header row). Fallback to raw cells:', (errRows && errRows.message) || errRows);
-      // Fallback: fetch raw cells and print first few rows
-      const cells = await sheet.getCells({ limit: 50 });
-      const byRow = {};
-      for (const c of cells) {
-        const r = c.row;
-        byRow[r] = byRow[r] || [];
-        byRow[r][c.col - 1] = c.value;
+      // Fallback: attempt to print raw row data available on the sheet object
+      if (sheet._cells && Array.isArray(sheet._cells)) {
+        const byRow = {};
+        for (const cell of sheet._cells) {
+          const r = cell.row;
+          byRow[r] = byRow[r] || [];
+          byRow[r][cell.col - 1] = cell.value;
+        }
+        const rowsArr = Object.keys(byRow).sort((a,b)=>Number(a)-Number(b)).map(k => byRow[k]);
+        console.log('First raw rows:');
+        for (let i = 0; i < Math.min(5, rowsArr.length); i++) console.log(rowsArr[i]);
       }
-      const rowsArr = Object.keys(byRow).sort((a,b)=>Number(a)-Number(b)).map(k => byRow[k]);
-      console.log('First raw rows:');
-      for (let i = 0; i < Math.min(5, rowsArr.length); i++) console.log(rowsArr[i]);
     }
   } catch (err) {
     console.error('Failed to fetch sheet:', err);

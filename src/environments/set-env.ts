@@ -15,6 +15,9 @@ const setEnv = () => {
         GOOGLE_SERVICE_ACCOUNT_EMAIL: '${process.env['GOOGLE_SERVICE_ACCOUNT_EMAIL']}',
         GOOGLE_PRIVATE_KEY: '${process.env['GOOGLE_PRIVATE_KEY']}',
         SHEET_ID: '${process.env['SHEET_ID']}',
+        SHEET_HEADER_ROW: ${process.env['SHEET_HEADER_ROW'] ? process.env['SHEET_HEADER_ROW'] : 1},
+        SHEET_TAB_TITLE: '${process.env['SHEET_TAB_TITLE'] || ''}',
+        SHEET_TAB_INDEX: ${process.env['SHEET_TAB_INDEX'] ? process.env['SHEET_TAB_INDEX'] : 0},
         appVersion: '${appVersion}',
         production: true,
     };

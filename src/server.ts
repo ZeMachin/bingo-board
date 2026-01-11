@@ -14,15 +14,25 @@ const angularApp = new AngularNodeAppEngine();
 
 /**
  * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * Below: a simple API to expose the configured Google sheet data to the browser
  */
+app.get('/api/sheet', async (req, res) => {
+  try {
+    // Prefer `title` query param, fall back to `index`
+    const title = typeof req.query['title'] === 'string' ? req.query['title'] : undefined;
+    const index = req.query['index'] ? Number(req.query['index']) : undefined;
+
+    // Lazy-import the service (keeps startup light in environments that don't need it)
+    const { GoogleSheetsService } = await import('./app/shared/google-sheets.service');
+    const svc = new GoogleSheetsService();
+    const data = await svc.getData(index ?? 0, title);
+
+    res.json({ ok: true, data });
+  } catch (err) {
+    console.error('API /api/sheet error', err);
+    res.status(500).json({ ok: false, error: String(err) });
+  }
+});
 
 /**
  * Serve static files from /browser
