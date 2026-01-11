@@ -552,8 +552,6 @@ export class BingoBoardComponent {
     this.updateChallengeLocks();
   }
 
-
-
   private saveCheckedToStorage() {
     try {
       if (typeof localStorage === 'undefined') return;

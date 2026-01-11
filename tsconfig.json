@@ -21,7 +21,9 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "files": [],
+  "files": [
+    "src/polyfills.ts"
+  ],
   "references": [
     {
       "path": "./tsconfig.app.json"

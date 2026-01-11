@@ -150,7 +150,6 @@ import { GoogleSheetsService } from '../shared/google-sheets.service';
     }
   `],
   imports: [CommonModule, BingoTileComponent],
-  providers: [GoogleSheetsService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BingoBoardComponent implements OnInit {
