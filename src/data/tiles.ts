@@ -368,7 +368,7 @@ export const tilesData: Tile[][] = [
             id: 47,
             image: "assets/images/silly_hat.png",
             alt: "Silly hat and gear deathless raid.",
-            description: `Complete a raid of your choice, deathless, and with silly hat and gear.<br>Raids that are allowed: ToB (not entry mode), CoX, ToA 150+.<br>What constitues "silly gear" will be left to the admins appreciation, but think <i>cosmetics</i> mostly. Any regular weapons, amulets, and rings are allowed.<br>Record your kill or livestream it with admins.`,
+            description: `Complete a raid of your choice, deathless, and with silly hat and gear.<br>Raids that are allowed: ToB (not entry mode), CoX, ToA 150+.<br>What constitues "silly gear" will be left to the admins appreciation, but think <i>cosmetics</i> mostly. Any regular weapons, amulets, and rings are allowed. Backpack allowed (accumulator or assembler), but no quiver.<br>Record your kill or livestream it with admins.`,
             challenge: true,
             weight: 5
         },
