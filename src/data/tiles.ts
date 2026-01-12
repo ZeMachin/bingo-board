@@ -366,9 +366,9 @@ export const tilesData: Tile[][] = [
         },
         {
             id: 47,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/silly_hat.png",
+            alt: "Silly hat and gear deathless raid.",
+            description: `Complete a raid of your choice, deathless, and with silly hat and gear.<br>Raids that are allowed: ToB (not entry mode), CoX, ToA 150+.<br>What constitues "silly gear" will be left to the admins appreciation, but think <i>cosmetics</i> mostly. Any regular weapons are allowed.<br>Record your kill or livestream it with admins.`,
             challenge: true,
             weight: 5
         },
@@ -383,9 +383,9 @@ export const tilesData: Tile[][] = [
         },
         {
             id: 49,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/moxi.png",
+            alt: "Moxi F2P",
+            description: "Kill Amoxliatl with F2P gear, food, prayers and potions.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         }
