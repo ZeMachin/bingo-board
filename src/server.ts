@@ -23,11 +23,11 @@ app.get('/api/sheet', async (req, res) => {
     const index = req.query['index'] ? Number(req.query['index']) : undefined;
 
     // Lazy-import the service (keeps startup light in environments that don't need it)
-    const { GoogleSheetsService } = await import('./app/shared/google-sheets.service');
-    const svc = new GoogleSheetsService();
-    const data = await svc.getData(index ?? 0, title);
+    // const { GoogleSheetsService } = await import('./app/shared/google-sheets.service');
+    // const svc = new GoogleSheetsService();
+    // const data = await svc.getData(index ?? 0, title);
 
-    res.json({ ok: true, data });
+    // res.json({ ok: true, data });
   } catch (err) {
     console.error('API /api/sheet error', err);
     res.status(500).json({ ok: false, error: String(err) });
