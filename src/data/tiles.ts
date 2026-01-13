@@ -7,7 +7,7 @@ export const tilesData: Tile[][] = [
             image: "assets/images/tob.png",
             alt: "Thematic ToB",
             description: "Barrows only ToB",
-            tooltip: "Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you. This can only be done with members of your team.",
+            tooltip: "Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you. This can only be done with members of your team.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         },
@@ -368,7 +368,7 @@ export const tilesData: Tile[][] = [
             id: 47,
             image: "assets/images/silly_hat.png",
             alt: "Silly hat and gear deathless raid.",
-            description: `Complete a raid of your choice, deathless, and with silly hat and gear.<br>Raids that are allowed: ToB (not entry mode), CoX, ToA 150+.<br>What constitues "silly gear" will be left to the admins appreciation, but think <i>cosmetics</i> mostly. Any regular weapons, amulets, and rings are allowed. Backpack allowed (accumulator or assembler), but no quiver.<br>Record your kill or livestream it with admins.`,
+            description: `Complete a raid of your choice, deathless, and with silly hat and gear.<br>Raids that are allowed: ToB (not entry mode), CoX, ToA 150+.<br>What constitues "silly gear" will be left to the admins appreciation, but think <i>cosmetics</i> mostly. Any regular weapons, amulets, and rings are allowed. Backpack allowed (accumulator or assembler), but no quiver.<br> This can only be done with members of your team.<br>Record your kill or livestream it with admins.`,
             challenge: true,
             weight: 5
         },
