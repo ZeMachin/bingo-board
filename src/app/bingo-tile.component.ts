@@ -210,7 +210,7 @@ export class BingoTileComponent {
   ariaLabel = 'Bingo tile';
 
   private flipped = signal(false);
-  hasLongDescription = computed(() => (this.description ?? '').length > 80);
+  hasLongDescription = computed(() => (this.description ?? '').length > 70);
 
   isFlipped() {
     return this.flipped();

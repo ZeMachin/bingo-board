@@ -280,9 +280,9 @@ export const tilesData: Tile[][] = [
     [
         {
             id: 36,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/sol.png",
+            alt: "I'm fast as Sol, babyyyy",
+            description: "Complete the Fortis Colosseum and defeat Sol Heredit in under 35 minutes.",
             challenge: true,
             weight: 5
         },
