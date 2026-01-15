@@ -226,7 +226,7 @@ export const tilesData: Tile[][] = [
             id: 29,
             image: "assets/images/whisp.png",
             alt: "Cheap whispers",
-            description: "Kill the Whisperer with a gear worth 1 million gp or under.<br>Record your kill or livestream it with admins.",
+            description: "Kill the Whisperer with a budget of 1 million gp or under for your inventory and gear, based on risk value.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         },
@@ -345,7 +345,7 @@ export const tilesData: Tile[][] = [
             id: 44,
             image: "assets/images/duke.png",
             alt: "Duke it out",
-            description: "Kill Duke Succelus with a gear worth 500,000 gp or under.<br>Record your kill or livestream it with admins.",
+            description: "Kill Duke Succelus with a budget of 500,000 gp or under for your inventory and gear, based on risk value.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         },
