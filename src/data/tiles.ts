@@ -7,7 +7,7 @@ export const tilesData: Tile[][] = [
             image: "assets/images/tob.png",
             alt: "Thematic ToB",
             description: "Barrows only ToB",
-            tooltip: "Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you. This can only be done with members of your team.<br>Record your kill or livestream it with admins.",
+            tooltip: "Entry mode is allowed. Head, legs, top, weapon must be Barrows equipment pieces. Barrows gloves as well if available (you can downgrade if RFD hasn't been completed). All other slots are up to you.<br>Don't forget smoke spells to handle purple crabs at Verzik.<br>This can only be done with members of your team.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         },
