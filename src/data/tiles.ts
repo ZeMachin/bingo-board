@@ -58,9 +58,9 @@ export const tilesData: Tile[][] = [
     [
         {
             id: 8,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/cox.png",
+            alt: '"Fast" CM',
+            description: "Complete a CM with any team size in under 45'. Only team members allowed.",
             challenge: true,
             weight: 5
         },
@@ -169,9 +169,10 @@ export const tilesData: Tile[][] = [
     [
         {
             id: 22,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/masori.png",
+            alt: "ToA kit",
+            description: "ToA 500 solo OR ToA 350 3+ deathless",
+            tooltip: "Complete ToA 500 solo deathless OR complete ToA 350 deathless with 3 members of your team, and as many other members of the bingo as you want.<br>Pictures of the party and the kit will be enough for submission.",
             challenge: true,
             weight: 5
         },
@@ -350,9 +351,9 @@ export const tilesData: Tile[][] = [
         },
         {
             id: 45,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/yama.png",
+            alt: "Yama is a demon?",
+            description: "Defeat Yama using no demonebane weapon or spells.",
             challenge: true,
             weight: 5
         },
@@ -368,7 +369,7 @@ export const tilesData: Tile[][] = [
             id: 47,
             image: "assets/images/silly_hat.png",
             alt: "Silly hat and gear deathless raid.",
-            description: `Complete a raid of your choice, deathless, and with silly hat and gear.<br>Raids that are allowed: ToB (not entry mode), CoX, ToA 150+.<br>What constitues "silly gear" will be left to the admins appreciation, but think <i>cosmetics</i> mostly. Any regular weapons, amulets, and rings are allowed. Backpack allowed (accumulator or assembler), but no quiver.<br> This can only be done with members of your team.<br>Record your kill or livestream it with admins.`,
+            description: `Complete a raid of your choice, deathless, and with silly hat and gear.<br>Raids that are allowed: ToB (not entry mode), CoX, ToA 150+.<br>What constitues "silly gear" will be left to the admins appreciation, but think <i>cosmetics</i> mostly. Any regular weapons, amulets, and rings are allowed. Off-hand has to be silly as well, or unequiped. Backpack allowed (accumulator or assembler), but no quiver.<br> This can only be done with members of your team.<br>Record your kill or livestream it with admins.`,
             challenge: true,
             weight: 5
         },
