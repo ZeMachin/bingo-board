@@ -113,9 +113,9 @@ export const tilesData: Tile[][] = [
     [
         {
             id: 15,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/cg.png",
+            alt: "Shpeeeeeeed",
+            description: "Complete the Corrupted Gauntlet under 7 minutes 15 seconds.",
             challenge: true,
             weight: 5
         },
@@ -224,9 +224,9 @@ export const tilesData: Tile[][] = [
     [
         {
             id: 29,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/whisp.png",
+            alt: "Cheap whispers",
+            description: "Kill the Whisperer with a gear worth 1 million gp or under.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         },
@@ -343,9 +343,9 @@ export const tilesData: Tile[][] = [
         },
         {
             id: 44,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/duke.png",
+            alt: "Duke it out",
+            description: "Kill Duke Succelus with a gear worth 500,000 gp or under.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         },
@@ -353,15 +353,15 @@ export const tilesData: Tile[][] = [
             id: 45,
             image: "assets/images/yama.png",
             alt: "Yama is a demon?",
-            description: "Defeat Yama using no demonebane weapon or spells.",
+            description: "Defeat Yama using no demonebane weapon or spells.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         },
         {
             id: 46,
-            image: "assets/images/mystery.png",
-            alt: "Mystery",
-            description: "???",
+            image: "assets/images/vard.png",
+            alt: "Praise the (ex-Vampyre) Lord!",
+            description: "Kill Vardorvis with at least +25 prayer bonus.<br>Record your kill or livestream it with admins.",
             challenge: true,
             weight: 5
         },
